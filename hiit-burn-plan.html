@@ -1,0 +1,279 @@
+<title>室内燃脂训练场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #102c3b;
+    --navy: #123e55;
+    --teal: #0b7d79;
+    --signal: #ef6b42;
+    --paper: #f2f6f4;
+    --card: #ffffff;
+    --muted: #5d727a;
+    --line: #d8e4e2;
+    --soft: #e2f0ee;
+    --good: #1e896e;
+    --shadow: 0 10px 30px rgba(18, 62, 85, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e7f3f2; --navy: #8bd4d1; --teal: #49c8be; --signal: #ff9b72;
+      --paper: #0e1c24; --card: #162932; --muted: #a9c0c1; --line: #29424a;
+      --soft: #183943; --good: #75d7b3; --shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e7f3f2; --navy: #8bd4d1; --teal: #49c8be; --signal: #ff9b72;
+    --paper: #0e1c24; --card: #162932; --muted: #a9c0c1; --line: #29424a;
+    --soft: #183943; --good: #75d7b3; --shadow: 0 10px 30px rgba(0, 0, 0, .2);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Noto Sans SC", system-ui, sans-serif; line-height: 1.55; }
+  button { font: inherit; }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+  .shell { max-width: 1040px; margin: 0 auto; padding: 18px 18px 72px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 24px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: "Barlow Condensed", sans-serif; font-size: 1.36rem; font-weight: 700; letter-spacing: .025em; color: var(--navy); }
+  .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; color: white; background: var(--teal); border-radius: 50% 50% 50% 10%; font-family: "DM Mono", monospace; font-size: .74rem; }
+  .status { border: 1px solid var(--line); color: var(--muted); padding: 5px 9px; border-radius: 99px; font-family: "DM Mono", monospace; font-size: .7rem; }
+  .hero { background: var(--navy); color: #fff; border-radius: 8px 34px 8px 8px; padding: 29px 25px 24px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+  .hero::after { content: "30–90"; position: absolute; color: rgba(255,255,255,.1); font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(7rem, 23vw, 13rem); line-height: .7; right: -7px; bottom: 8px; pointer-events: none; }
+  .eyebrow { color: #a7e6df; font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { position: relative; z-index: 1; max-width: 640px; font-family: "Barlow Condensed", "Noto Sans SC", sans-serif; font-size: clamp(2.4rem, 10vw, 4.8rem); line-height: .98; letter-spacing: -.02em; margin-bottom: 15px; text-wrap: balance; }
+  .hero-text { position: relative; z-index: 1; max-width: 590px; color: #d7ebea; font-size: .96rem; margin-bottom: 20px; }
+  .hero-rule { position: relative; z-index: 1; display: flex; gap: 16px; flex-wrap: wrap; font-family: "DM Mono", monospace; font-size: .72rem; color: #b8d7d4; }
+  .hero-rule b { color: #fff; font-weight: 500; }
+  main { display: grid; gap: 32px; margin-top: 32px; }
+  .section-lead { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
+  h2 { font-family: "Barlow Condensed", "Noto Sans SC", sans-serif; color: var(--navy); font-size: 2rem; line-height: 1; letter-spacing: -.01em; margin-bottom: 0; }
+  .section-note { max-width: 410px; margin: 0; color: var(--muted); font-size: .83rem; }
+  .duration-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .duration { min-height: 76px; background: transparent; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); text-align: left; padding: 11px; cursor: pointer; transition: .18s ease; }
+  .duration:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .duration.active { background: var(--teal); color: #fff; border-color: var(--teal); box-shadow: 0 5px 14px rgba(11,125,121,.18); }
+  .duration b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.8rem; line-height: 1; }
+  .duration span { font-size: .68rem; opacity: .85; }
+  .session { background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 8px; overflow: hidden; }
+  .session-head { padding: 19px 20px 15px; display: flex; justify-content: space-between; align-items: start; gap: 14px; border-bottom: 1px solid var(--line); }
+  .session-title { font-size: 1.05rem; font-weight: 700; margin: 0 0 3px; }
+  .session-subtitle { color: var(--muted); margin: 0; font-size: .82rem; }
+  .total { font-family: "DM Mono", monospace; color: var(--signal); font-size: .75rem; white-space: nowrap; padding-top: 2px; }
+  .blocks { padding: 2px 20px 18px; }
+  .block { display: grid; grid-template-columns: 54px 1fr; gap: 13px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .block:last-child { border-bottom: 0; padding-bottom: 3px; }
+  .block-time { color: var(--teal); font-family: "DM Mono", monospace; font-size: .75rem; padding-top: 2px; }
+  .block h3 { color: var(--ink); font-size: .97rem; margin-bottom: 3px; }
+  .block p { color: var(--muted); font-size: .8rem; margin: 0; }
+  .timer { background: var(--ink); border-radius: 8px; color: #fff; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 20px; }
+  .timer-label { color: #a9c8c7; font-family: "DM Mono", monospace; font-size: .68rem; letter-spacing: .06em; }
+  .timer-name { font-size: 1rem; font-weight: 700; margin: 3px 0 0; }
+  .timer-count { font: 600 3.25rem/.9 "Barlow Condensed", sans-serif; letter-spacing: .025em; text-align: right; }
+  .timer-controls { grid-column: 1 / -1; display: flex; gap: 8px; }
+  .action { border: 0; min-height: 40px; padding: 0 15px; border-radius: 4px; cursor: pointer; font-weight: 700; font-size: .84rem; }
+  .primary { background: var(--signal); color: #fff; }
+  .secondary { background: rgba(255,255,255,.13); color: #fff; }
+  .action:hover { filter: brightness(1.08); }
+  .routine-label { display: flex; align-items: center; gap: 9px; color: var(--teal); font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .06em; }
+  .routine-label::before { content: ""; width: 27px; height: 1px; background: currentColor; }
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .work-card { min-height: 200px; position: relative; background: var(--card); border: 1px solid var(--line); padding: 17px; border-radius: 8px; overflow: hidden; }
+  .work-card::before { content: attr(data-number); font: 700 5.5rem/.7 "Barlow Condensed", sans-serif; color: var(--soft); position: absolute; right: 6px; top: 12px; }
+  .work-card h3, .work-card p, .move-meta, .tips { position: relative; z-index: 1; }
+  .work-card h3 { color: var(--navy); font-size: 1.1rem; margin: 14px 0 5px; }
+  .work-card p { color: var(--muted); font-size: .8rem; margin-bottom: 11px; max-width: 92%; }
+  .move-meta { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag { color: var(--teal); background: var(--soft); padding: 3px 7px; border-radius: 3px; font-family: "DM Mono", monospace; font-size: .65rem; }
+  .reference { background: var(--soft); border-radius: 8px; padding: 20px; }
+  .reference .section-lead { margin-bottom: 18px; }
+  .ref-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ref { border-top: 2px solid var(--teal); padding-top: 9px; }
+  .ref b { display: block; color: var(--navy); font-size: .88rem; margin-bottom: 4px; }
+  .ref span { color: var(--muted); font-size: .78rem; }
+  .demo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .demo-card { display: grid; grid-template-rows: 142px 1fr auto; overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+  .pose { display: grid; place-items: center; background: var(--soft); border-bottom: 1px solid var(--line); color: var(--teal); }
+  .pose svg { width: 100%; height: 100%; max-width: 180px; }
+  .pose .figure { fill: none; stroke: currentColor; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+  .pose .joint { fill: var(--signal); stroke: none; }
+  .pose .ground { stroke: var(--line); stroke-width: 3; }
+  .pose .arrow { fill: none; stroke: var(--signal); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .demo-copy { padding: 13px 14px 8px; }
+  .demo-copy h3 { color: var(--navy); font-size: 1rem; margin: 0 0 4px; }
+  .demo-copy p { color: var(--muted); font-size: .77rem; margin: 0; }
+  .video-link { margin: 0 14px 14px; display: inline-flex; justify-content: center; align-items: center; min-height: 35px; background: var(--ink); color: #fff; text-decoration: none; border-radius: 4px; font-size: .76rem; font-weight: 700; }
+  .video-link:hover { background: var(--teal); }
+  .safety { border-left: 3px solid var(--signal); padding: 12px 15px; background: color-mix(in srgb, var(--signal) 8%, var(--card)); color: var(--muted); font-size: .82rem; border-radius: 0 6px 6px 0; }
+  .safety b { color: var(--ink); }
+  .footer { margin-top: 28px; color: var(--muted); font-size: .73rem; text-align: center; }
+  @media (max-width: 580px) {
+    .shell { padding: 12px 12px 56px; }
+    .topbar { margin-bottom: 15px; }
+    .hero { padding: 25px 19px 20px; border-radius: 6px 26px 6px 6px; }
+    .duration-grid { grid-template-columns: repeat(2, 1fr); }
+    .work-grid, .ref-list, .demo-grid { grid-template-columns: 1fr; }
+    .section-lead { display: block; }
+    .section-note { margin-top: 7px; }
+    .work-card { min-height: 179px; }
+  }
+  @media (min-width: 700px) {
+    .work-grid { grid-template-columns: repeat(4, 1fr); }
+    .demo-grid { grid-template-columns: repeat(3, 1fr); }
+    .work-card { min-height: 228px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">HIIT</span>燃脂训练场</div>
+    <span class="status">低冲击 · 居家</span>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <p class="eyebrow">INDOOR HIIT / 30–90 MINUTES</p>
+    <h1 id="page-title">不是拼命跳。<br>是稳定地完成。</h1>
+    <p class="hero-text">为大基数设计的居家间歇训练：保留心率波动，控制关节冲击；先建立规律，再逐步加量。</p>
+    <div class="hero-rule"><span><b>40秒</b> 训练</span><span><b>20秒</b> 恢复</span><span><b>90秒</b> 轮间休息</span></div>
+  </section>
+
+  <main>
+    <section aria-labelledby="duration-heading">
+      <div class="section-lead">
+        <div><p class="routine-label">选择今天的训练</p><h2 id="duration-heading">今天练多久？</h2></div>
+        <p class="section-note">不用每次都挑战最长版本。状态一般时，完成 30 分钟也算赢。</p>
+      </div>
+      <div class="duration-grid" role="group" aria-label="选择训练时长">
+        <button class="duration" data-plan="30" aria-pressed="false"><b>30</b><span>快速完成</span></button>
+        <button class="duration active" data-plan="45" aria-pressed="true"><b>45</b><span>标准训练</span></button>
+        <button class="duration" data-plan="60" aria-pressed="false"><b>60</b><span>进阶耐力</span></button>
+        <button class="duration" data-plan="90" aria-pressed="false"><b>90</b><span>周末长版</span></button>
+      </div>
+    </section>
+
+    <section class="session" aria-live="polite" aria-labelledby="session-heading">
+      <div class="session-head">
+        <div><h2 class="session-title" id="session-heading">45 分钟 · 标准训练</h2><p class="session-subtitle" id="session-subtitle">把一轮做好，比硬撑更多轮重要。</p></div>
+        <span class="total" id="total-time">TOTAL 45 MIN</span>
+      </div>
+      <div class="blocks" id="plan-blocks"></div>
+    </section>
+
+    <section class="timer" aria-label="间歇计时器">
+      <div><div class="timer-label" id="timer-label">准备开始</div><p class="timer-name" id="timer-name">选择一个动作，按开始进入 40 秒训练</p></div>
+      <div class="timer-count" id="timer-count">00:40</div>
+      <div class="timer-controls"><button class="action primary" id="start-button">开始 40 秒</button><button class="action secondary" id="reset-button">重置</button></div>
+    </section>
+
+    <section aria-labelledby="circuit-heading">
+      <div class="section-lead">
+        <div><p class="routine-label">主循环 · 4 个配对</p><h2 id="circuit-heading">把熟悉动作，练得更友好</h2></div>
+        <p class="section-note">每个配对：A 40 秒 → B 40 秒 → 休息 20 秒。完成 4 个配对算 1 轮。</p>
+      </div>
+      <div class="work-grid">
+        <article class="work-card" data-number="01"><span class="tag">配对 A</span><h3>空气跳绳<br>＋ 无跳跃开合</h3><p>原地轻踏或小幅离地，随后左右点地开合。全程保持膝盖微屈。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">低冲击</span></div></article>
+        <article class="work-card" data-number="02"><span class="tag">配对 B</span><h3>快速踏步<br>＋ 提膝击掌</h3><p>摆臂加速踏步；抬起一侧膝盖，以对侧手掌或手肘触碰。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">核心参与</span></div></article>
+        <article class="work-card" data-number="03"><span class="tag">配对 C</span><h3>空气跳绳<br>＋ 扶墙侧抬腿</h3><p>扶稳墙面，左右各 20 秒；腿向侧抬起，慢慢放回，骨盆别歪。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">髋部稳定</span></div></article>
+        <article class="work-card" data-number="04"><span class="tag">配对 D</span><h3>快速踏步<br>＋ 扶墙后踢腿</h3><p>脚跟向臀部靠近，不甩腰；踏步负责心率，后踢腿负责腿后侧激活。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">控速完成</span></div></article>
+      </div>
+    </section>
+
+    <section class="reference" aria-labelledby="reference-heading">
+      <div class="section-lead"><div><p class="routine-label">动作参考</p><h2 id="reference-heading">三个动作质量检查点</h2></div><p class="section-note">没有必要追求大幅度；能稳定控制，才是正确幅度。</p></div>
+      <div class="ref-list">
+        <div class="ref"><b>① 落地安静</b><span>空气跳绳时像踩薄冰：前脚掌轻落，膝微屈。如果听到重重的砸地声，改成原地踏步。</span></div>
+        <div class="ref"><b>② 膝盖对准脚尖</b><span>提膝、开合、深蹲时都观察膝盖走向。别让膝盖向内扣；动作慢一点也没关系。</span></div>
+        <div class="ref"><b>③ 躯干像一块板</b><span>侧抬腿与后踢腿时，扶墙后保持肋骨收住、骨盆平稳，不用摆腰来“借力”。</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="demo-heading">
+      <div class="section-lead"><div><p class="routine-label">看图再开始</p><h2 id="demo-heading">动作图解与视频参考</h2></div><p class="section-note">图解用于抓住姿势重点；视频按钮会打开 YouTube 的对应动作搜索结果，便于选择自己觉得节奏舒适的教学。</p></div>
+      <div class="demo-grid">
+        <article class="demo-card">
+          <div class="pose" role="img" aria-label="原地踏步动作示意：上身直立，双臂自然摆动，一侧膝盖抬起。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><circle class="figure" cx="89" cy="27" r="12"/><path class="figure" d="M89 39V76M89 50L61 65M89 50L118 64M89 76L64 106M89 76L117 90L133 75"/><path class="arrow" d="M143 89V57M137 63L143 57L149 63"/><circle class="joint" cx="133" cy="75" r="4"/></svg></div>
+          <div class="demo-copy"><h3>原地踏步 / 空气跳绳</h3><p>先用快速踏步建立节奏；前脚掌轻点地、落地安静。需要时再加小幅离地。</p></div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=low+impact+marching+in+place+exercise+proper+form" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+        </article>
+        <article class="demo-card">
+          <div class="pose" role="img" aria-label="低冲击开合动作示意：双臂向上，双脚左右点地，不需要跳起。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><circle class="figure" cx="90" cy="25" r="12"/><path class="figure" d="M90 37V76M82 43L61 21M98 43L119 21M90 76L59 109M90 76L121 109"/><path class="arrow" d="M53 112H31M37 106L31 112L37 118M127 112H149M143 106L149 112L143 118"/></svg></div>
+          <div class="demo-copy"><h3>无跳跃开合</h3><p>左右脚轮流点开、收回，同时双臂上举；髋和膝保持柔软，不必追求速度。</p></div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=low+impact+no+jump+jumping+jacks+proper+form" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+        </article>
+        <article class="demo-card">
+          <div class="pose" role="img" aria-label="椅子深蹲动作示意：臀部向后下坐，膝盖对准脚尖，轻触椅子后站起。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><path class="figure" d="M112 75H149V113M136 75V113M69 31V60L86 74L110 84M69 45L45 64M69 60L47 83M86 74L64 108M110 84L97 112"/><circle class="figure" cx="69" cy="19" r="12"/><path class="arrow" d="M36 91V111M30 105L36 111L42 105"/></svg></div>
+          <div class="demo-copy"><h3>椅子深蹲</h3><p>臀部先向后找椅面，轻触椅子再站起。膝盖顺着脚尖，脚掌全程踩稳。</p></div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=chair+squat+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+        </article>
+        <article class="demo-card">
+          <div class="pose" role="img" aria-label="上斜俯卧撑动作示意：双手撑在墙面或桌沿，身体成直线，屈肘靠近支撑面。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><path class="figure" d="M133 19V120M124 60L109 68L73 78L48 101M109 68L95 89M73 78L83 108"/><circle class="figure" cx="118" cy="50" r="11"/><path class="arrow" d="M105 81L115 89M108 92L115 89L112 81"/></svg></div>
+          <div class="demo-copy"><h3>上斜俯卧撑</h3><p>墙面最轻松，桌沿或沙发扶手更难。身体成一条线，肘部朝后约 45°。</p></div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=incline+push+up+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+        </article>
+        <article class="demo-card">
+          <div class="pose" role="img" aria-label="死虫式动作示意：仰卧，腰背贴地，对侧手脚缓慢伸直。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M18 108H162"/><circle class="figure" cx="48" cy="90" r="11"/><path class="figure" d="M59 90L93 87L119 57M76 88L77 54M93 87L130 106M101 83L143 42"/><path class="arrow" d="M145 39L156 28M147 29L156 28L155 37"/><circle class="joint" cx="143" cy="42" r="4"/></svg></div>
+          <div class="demo-copy"><h3>死虫式</h3><p>慢于呼吸地伸出对侧手脚。腰一旦离地，马上缩小动作范围，不要硬伸直。</p></div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+        </article>
+        <article class="demo-card">
+          <div class="pose" role="img" aria-label="鸟狗式动作示意：四点跪姿，对侧手脚伸直，骨盆保持平稳。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M18 116H162"/><circle class="figure" cx="66" cy="57" r="11"/><path class="figure" d="M77 61L104 73L129 45M91 69L57 84L39 67M104 73L126 105M104 73L75 108"/><path class="arrow" d="M132 42L150 29M141 28L150 29L147 38"/><circle class="joint" cx="129" cy="45" r="4"/></svg></div>
+          <div class="demo-copy"><h3>鸟狗式</h3><p>先保持骨盆不转，再伸长对侧手脚。动作幅度不需要很大，稳定优先。</p></div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=bird+dog+exercise+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="supplement-heading">
+      <div class="section-lead"><div><p class="routine-label">补充模块</p><h2 id="supplement-heading">力量与核心动作参考</h2></div><p class="section-note">每项 40 秒，项目间休息 20 秒；完成后休息 60 秒再进行下一轮。</p></div>
+      <div class="work-grid">
+        <article class="work-card" data-number="L1"><span class="tag">力量</span><h3>椅子深蹲</h3><p>臀部向后找椅面，轻触后站起；脚掌全程踩稳。膝不适时减少下蹲深度。</p><div class="move-meta"><span class="tag">触椅即起</span></div></article>
+        <article class="work-card" data-number="L2"><span class="tag">力量</span><h3>上斜俯卧撑</h3><p>双手撑墙、桌沿或沙发扶手；身体从头到膝/脚成直线，肘向后约 45°。</p><div class="move-meta"><span class="tag">墙面最简单</span></div></article>
+        <article class="work-card" data-number="C1"><span class="tag">核心</span><h3>死虫式</h3><p>仰卧屈膝，缓慢伸出对侧手脚；腰部始终贴地。腰离地时立刻缩小幅度。</p><div class="move-meta"><span class="tag">慢于呼吸</span></div></article>
+        <article class="work-card" data-number="C2"><span class="tag">核心</span><h3>鸟狗式</h3><p>四点跪姿，伸出对侧手脚；先保持骨盆不转，再追求伸得更远。</p><div class="move-meta"><span class="tag">左右各 20 秒</span></div></article>
+      </div>
+    </section>
+
+    <aside class="safety"><b>安全阈值：</b>训练强度维持在 RPE 6–7/10——可以说短句，但不能唱歌。出现胸痛、眩晕、关节刺痛、异常心悸时立即停止。当天膝踝不舒服，所有“跳”一律改为快速踏步。</aside>
+  </main>
+  <footer class="footer">居家燃脂计划 · 先稳定完成，再逐步加量 · 每周至少留出 1–2 天完全休息</footer>
+</div>
+
+<script>
+  const plans = {
+    30: { title: '30 分钟 · 快速完成', sub: '忙碌的一天，也给自己留一段完整训练。', blocks: [['05 分', '动态热身', '原地踏步、肩髋绕环、踝泵、扶墙腿摆动；全身微微发热即可。'], ['15 分', '主循环 × 2', '每轮 4 个配对；每个配对 40 秒 + 40 秒 + 20 秒，轮间休息 90 秒。'], ['05 分', '力量循环 × 1', '椅子深蹲、上斜俯卧撑、臀桥、靠墙静蹲；每项 40 秒，间歇 20 秒。'], ['05 分', '放松拉伸', '小腿、大腿前后侧、髋屈肌、胸肩；每处约 30 秒。']] },
+    45: { title: '45 分钟 · 标准训练', sub: '把一轮做好，比硬撑更多轮重要。', blocks: [['07 分', '动态热身', '原地踏步、肩髋绕环、踝泵、椅子深蹲和扶墙腿摆动；逐步加快呼吸。'], ['15 分', '主循环 × 2', '每轮 4 个配对；每个配对 40 秒 + 40 秒 + 20 秒，轮间休息 90 秒。'], ['11 分', '力量循环 × 2', '椅子深蹲、上斜俯卧撑、扶椅后撤步、臀桥、靠墙静蹲；每项 40 秒，间歇 20 秒。'], ['05 分', '核心循环 × 1', '死虫式、鸟狗式、跪姿平板、坐姿收腿、侧卧抬腿；每项 40 秒。'], ['07 分', '放松拉伸', '放慢心率后，拉伸下肢、髋部、胸肩与背部。']] },
+    60: { title: '60 分钟 · 进阶耐力', sub: '增加总量，而不是把每个动作做得更猛。', blocks: [['07 分', '动态热身', '先活动关节，再逐步加快步频；不要跳过热身。'], ['23 分', '主循环 × 3', '每轮 4 个配对；每个配对 40 秒 + 40 秒 + 20 秒，轮间休息 90 秒。'], ['11 分', '力量循环 × 2', '椅子深蹲、上斜俯卧撑、扶椅后撤步、臀桥、靠墙静蹲。'], ['11 分', '核心循环 × 2', '死虫式、鸟狗式、跪姿平板、坐姿收腿、侧卧抬腿。'], ['08 分', '放松拉伸', '缓慢走动 2 分钟后，再完成小腿、腿部、髋部和胸肩拉伸。']] },
+    90: { title: '90 分钟 · 周末长版', sub: 'HIIT 仍然只占一部分；长时间来自力量、核心和低强度有氧。', blocks: [['08 分', '动态热身', '原地踏步、关节活动、椅子深蹲和提膝走。'], ['15 分', '主循环 × 2', '维持低冲击动作版本，不要为了时长硬加跳跃量。'], ['11 分', '力量循环 × 2', '椅子深蹲、上斜俯卧撑、扶椅后撤步、臀桥、靠墙静蹲。'], ['11 分', '核心循环 × 2', '死虫式、鸟狗式、跪姿平板、坐姿收腿、侧卧抬腿。'], ['37 分', '低强度有氧', '室内快走、原地踏步或低冲击舞蹈；保持“能说话、不能唱歌”的节奏。'], ['08 分', '放松拉伸', '不赶时间地放慢心率，完成全身拉伸。']] }
+  };
+  const blocks = document.getElementById('plan-blocks');
+  function renderPlan(key) {
+    const plan = plans[key];
+    document.getElementById('session-heading').textContent = plan.title;
+    document.getElementById('session-subtitle').textContent = plan.sub;
+    document.getElementById('total-time').textContent = `TOTAL ${key} MIN`;
+    blocks.innerHTML = plan.blocks.map(([time, name, detail]) => `<div class="block"><div class="block-time">${time}</div><div><h3>${name}</h3><p>${detail}</p></div></div>`).join('');
+    document.querySelectorAll('.duration').forEach(button => {
+      const selected = button.dataset.plan === key;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', selected);
+    });
+  }
+  document.querySelectorAll('.duration').forEach(button => button.addEventListener('click', () => renderPlan(button.dataset.plan)));
+  renderPlan('45');
+
+  let remaining = 40, running = false, interval;
+  const timerCount = document.getElementById('timer-count');
+  const timerLabel = document.getElementById('timer-label');
+  const timerName = document.getElementById('timer-name');
+  const startButton = document.getElementById('start-button');
+  function drawTimer() { timerCount.textContent = `00:${String(remaining).padStart(2, '0')}`; }
+  function resetTimer() { clearInterval(interval); running = false; remaining = 40; drawTimer(); timerLabel.textContent = '准备开始'; timerName.textContent = '选择一个动作，按开始进入 40 秒训练'; startButton.textContent = '开始 40 秒'; }
+  startButton.addEventListener('click', () => {
+    if (running) { resetTimer(); return; }
+    running = true; timerLabel.textContent = '训练进行中'; timerName.textContent = '专注呼吸与动作控制'; startButton.textContent = '停止并重置';
+    interval = setInterval(() => { remaining -= 1; drawTimer(); if (remaining <= 0) { clearInterval(interval); running = false; timerLabel.textContent = '完成这一组'; timerName.textContent = '休息 20 秒，喝一小口水后继续'; startButton.textContent = '开始下一组'; remaining = 40; } }, 1000);
+  });
+  document.getElementById('reset-button').addEventListener('click', resetTimer);
+</script>
