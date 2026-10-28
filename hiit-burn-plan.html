@@ -1,281 +1,1890 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>室内燃脂训练场</title>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0b1c24">
+<title>HIIT 燃脂训练场</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b7d79'/%3E%3Ctext x='32' y='41' font-size='21' text-anchor='middle' fill='white' font-family='Arial'%3EHIIT%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #102c3b;
     --navy: #123e55;
     --teal: #0b7d79;
     --signal: #ef6b42;
+    --signal-soft: #fdeee8;
+    --on-signal: #ffffff;
+    --on-teal: #ffffff;
     --paper: #f2f6f4;
     --card: #ffffff;
     --muted: #5d727a;
     --line: #d8e4e2;
     --soft: #e2f0ee;
     --good: #1e896e;
+    --danger: #c2412d;
+    --hero-bg: #123e55;
+    --hero-ink: #ffffff;
+    --hero-muted: #d7ebea;
     --shadow: 0 10px 30px rgba(18, 62, 85, .08);
+    --player-bg: #0b1c24;
+    --player-rest-bg: #10333c;
+    --player-sheet: #162932;
+    --player-ink: #ffffff;
+    --player-muted: #a9c0c1;
+    --player-line: #2b4652;
+    --player-work: #ff9b72;
+    --player-rest: #49c8be;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --ink: #e7f3f2; --navy: #8bd4d1; --teal: #49c8be; --signal: #ff9b72;
-      --paper: #0e1c24; --card: #162932; --muted: #a9c0c1; --line: #29424a;
-      --soft: #183943; --good: #75d7b3; --shadow: 0 10px 30px rgba(0, 0, 0, .2);
+      --signal-soft: #3a211c; --on-signal: #25100a; --on-teal: #08212a; --paper: #0e1c24; --card: #162932; --muted: #a9c0c1;
+      --line: #29424a; --soft: #183943; --good: #75d7b3; --danger: #ff8d73;
+      --hero-bg: #0d2836; --hero-ink: #eaf7f5; --hero-muted: #b8d7d4;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .2);
     }
   }
   :root[data-theme="dark"] {
     --ink: #e7f3f2; --navy: #8bd4d1; --teal: #49c8be; --signal: #ff9b72;
-    --paper: #0e1c24; --card: #162932; --muted: #a9c0c1; --line: #29424a;
-    --soft: #183943; --good: #75d7b3; --shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    --signal-soft: #3a211c; --on-signal: #25100a; --on-teal: #08212a; --paper: #0e1c24; --card: #162932; --muted: #a9c0c1;
+    --line: #29424a; --soft: #183943; --good: #75d7b3; --danger: #ff8d73;
+    --hero-bg: #0d2836; --hero-ink: #eaf7f5; --hero-muted: #b8d7d4;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .2);
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Noto Sans SC", system-ui, sans-serif; line-height: 1.55; }
-  button { font: inherit; }
-  button:focus-visible, a:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
-  .shell { max-width: 1040px; margin: 0 auto; padding: 18px 18px 72px; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 24px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-family: "Barlow Condensed", sans-serif; font-size: 1.36rem; font-weight: 700; letter-spacing: .025em; color: var(--navy); }
-  .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; color: white; background: var(--teal); border-radius: 50% 50% 50% 10%; font-family: "DM Mono", monospace; font-size: .74rem; }
-  .status { border: 1px solid var(--line); color: var(--muted); padding: 5px 9px; border-radius: 99px; font-family: "DM Mono", monospace; font-size: .7rem; }
-  .hero { background: var(--navy); color: #fff; border-radius: 8px 34px 8px 8px; padding: 29px 25px 24px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
-  .hero::after { content: "30–90"; position: absolute; color: rgba(255,255,255,.1); font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(7rem, 23vw, 13rem); line-height: .7; right: -7px; bottom: 8px; pointer-events: none; }
-  .eyebrow { color: #a7e6df; font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
-  h1, h2, h3, p { margin-top: 0; }
-  h1 { position: relative; z-index: 1; max-width: 640px; font-family: "Barlow Condensed", "Noto Sans SC", sans-serif; font-size: clamp(2.4rem, 10vw, 4.8rem); line-height: .98; letter-spacing: -.02em; margin-bottom: 15px; text-wrap: balance; }
-  .hero-text { position: relative; z-index: 1; max-width: 590px; color: #d7ebea; font-size: .96rem; margin-bottom: 20px; }
-  .hero-rule { position: relative; z-index: 1; display: flex; gap: 16px; flex-wrap: wrap; font-family: "DM Mono", monospace; font-size: .72rem; color: #b8d7d4; }
+  html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  html::-webkit-scrollbar { width: 8px; }
+  html::-webkit-scrollbar-thumb { border-radius: 4px; background: var(--line); }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  button:focus-visible, a:focus-visible, input:focus-visible + span, label:has(input:focus-visible) { outline: 3px solid var(--signal); outline-offset: 3px; }
+  [hidden] { display: none !important; }
+  .no-scroll { overflow: hidden; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .svg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .icon { width: 22px; height: 22px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .shell { max-width: 1240px; margin: 0 auto; padding: 18px 18px 128px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--navy); }
+  .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; color: var(--on-teal); background: var(--teal); border-radius: 50% 50% 50% 10%; font: 500 .62rem "DM Mono", monospace; }
+  .brand-name { font: 700 1.2rem "Barlow Condensed", "Noto Sans SC", sans-serif; letter-spacing: .02em; }
+  .top-actions { display: flex; align-items: center; gap: 4px; }
+  .top-action, .icon-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 10px; border: 1px solid transparent; border-radius: 99px; background: transparent; color: var(--muted); font-size: .78rem; }
+  .top-action:hover, .icon-btn:hover { background: var(--soft); color: var(--teal); }
+  .icon-btn { padding: 0; }
+  .top-action .icon { width: 19px; height: 19px; }
+  .top-action .label { display: none; }
+  @media (min-width: 700px) { .top-action .label { display: inline; } }
+
+  .hero { position: relative; overflow: hidden; background: var(--hero-bg); color: var(--hero-ink); border-radius: 10px 34px 10px 10px; padding: 28px 24px 22px; box-shadow: var(--shadow); }
+  .hero-watermark { position: absolute; right: -6px; bottom: 2px; font: 700 clamp(6rem, 22vw, 12rem)/.7 "Barlow Condensed", sans-serif; color: rgba(255,255,255,.08); pointer-events: none; }
+  .eyebrow { position: relative; z-index: 1; margin: 0 0 10px; color: #a7e6df; font: 400 .68rem "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+  .hero h1 { position: relative; z-index: 1; max-width: 620px; margin: 0 0 12px; color: var(--hero-ink); font: 700 clamp(2.2rem, 9vw, 3.8rem)/1.04 "Noto Sans SC", sans-serif; letter-spacing: -.02em; }
+  .hero-text { position: relative; z-index: 1; max-width: 560px; margin: 0 0 18px; color: var(--hero-muted); font-size: .86rem; line-height: 1.7; }
+  .hero-rule { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 16px; font: 400 .62rem "DM Mono", monospace; color: #b8d7d4; }
   .hero-rule b { color: #fff; font-weight: 500; }
-  main { display: grid; gap: 32px; margin-top: 32px; }
-  .section-lead { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
-  h2 { font-family: "Barlow Condensed", "Noto Sans SC", sans-serif; color: var(--navy); font-size: 2rem; line-height: 1; letter-spacing: -.01em; margin-bottom: 0; }
-  .section-note { max-width: 410px; margin: 0; color: var(--muted); font-size: .83rem; }
+
+  .app-main { display: grid; gap: 26px; margin-top: 26px; }
+  @media (min-width: 980px) { .app-main { grid-template-columns: minmax(0, 1fr) 460px; align-items: start; gap: 40px; margin-top: 32px; } .preview-col { position: sticky; top: 20px; } }
+  .setting-block { margin-top: 24px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .section-head h2 { margin: 0; color: var(--navy); font: 700 1.28rem "Barlow Condensed", "Noto Sans SC", sans-serif; letter-spacing: .01em; }
+  .section-head p { margin: 0; color: var(--muted); font-size: .72rem; }
+
   .duration-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .duration { min-height: 76px; background: transparent; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); text-align: left; padding: 11px; cursor: pointer; transition: .18s ease; }
-  .duration:hover { border-color: var(--teal); transform: translateY(-2px); }
-  .duration.active { background: var(--teal); color: #fff; border-color: var(--teal); box-shadow: 0 5px 14px rgba(11,125,121,.18); }
-  .duration b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.8rem; line-height: 1; }
-  .duration span { font-size: .68rem; opacity: .85; }
-  .session { background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 8px; overflow: hidden; }
-  .session-head { padding: 19px 20px 15px; display: flex; justify-content: space-between; align-items: start; gap: 14px; border-bottom: 1px solid var(--line); }
-  .session-title { font-size: 1.05rem; font-weight: 700; margin: 0 0 3px; }
-  .session-subtitle { color: var(--muted); margin: 0; font-size: .82rem; }
-  .total { font-family: "DM Mono", monospace; color: var(--signal); font-size: .75rem; white-space: nowrap; padding-top: 2px; }
-  .blocks { padding: 2px 20px 18px; }
-  .block { display: grid; grid-template-columns: 54px 1fr; gap: 13px; padding: 15px 0; border-bottom: 1px solid var(--line); }
-  .block:last-child { border-bottom: 0; padding-bottom: 3px; }
-  .block-time { color: var(--teal); font-family: "DM Mono", monospace; font-size: .75rem; padding-top: 2px; }
-  .block h3 { color: var(--ink); font-size: .97rem; margin-bottom: 3px; }
-  .block p { color: var(--muted); font-size: .8rem; margin: 0; }
-  .timer { background: var(--ink); border-radius: 8px; color: #fff; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 20px; }
-  .timer-label { color: #a9c8c7; font-family: "DM Mono", monospace; font-size: .68rem; letter-spacing: .06em; }
-  .timer-name { font-size: 1rem; font-weight: 700; margin: 3px 0 0; }
-  .timer-count { font: 600 3.25rem/.9 "Barlow Condensed", sans-serif; letter-spacing: .025em; text-align: right; }
-  .timer-controls { grid-column: 1 / -1; display: flex; gap: 8px; }
-  .action { border: 0; min-height: 40px; padding: 0 15px; border-radius: 4px; cursor: pointer; font-weight: 700; font-size: .84rem; }
-  .primary { background: var(--signal); color: #fff; }
-  .secondary { background: rgba(255,255,255,.13); color: #fff; }
-  .action:hover { filter: brightness(1.08); }
-  .routine-label { display: flex; align-items: center; gap: 9px; color: var(--teal); font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .06em; }
-  .routine-label::before { content: ""; width: 27px; height: 1px; background: currentColor; }
-  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .work-card { min-height: 200px; position: relative; background: var(--card); border: 1px solid var(--line); padding: 17px; border-radius: 8px; overflow: hidden; }
-  .work-card::before { content: attr(data-number); font: 700 5.5rem/.7 "Barlow Condensed", sans-serif; color: var(--soft); position: absolute; right: 6px; top: 12px; }
-  .work-card h3, .work-card p, .move-meta, .tips { position: relative; z-index: 1; }
-  .work-card h3 { color: var(--navy); font-size: 1.1rem; margin: 14px 0 5px; }
-  .work-card p { color: var(--muted); font-size: .8rem; margin-bottom: 11px; max-width: 92%; }
-  .move-meta { display: flex; gap: 5px; flex-wrap: wrap; }
-  .tag { color: var(--teal); background: var(--soft); padding: 3px 7px; border-radius: 3px; font-family: "DM Mono", monospace; font-size: .65rem; }
-  .reference { background: var(--soft); border-radius: 8px; padding: 20px; }
-  .reference .section-lead { margin-bottom: 18px; }
-  .ref-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .ref { border-top: 2px solid var(--teal); padding-top: 9px; }
-  .ref b { display: block; color: var(--navy); font-size: .88rem; margin-bottom: 4px; }
-  .ref span { color: var(--muted); font-size: .78rem; }
-  .demo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .demo-card { display: grid; grid-template-rows: 142px 1fr auto; overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
-  .pose { display: grid; place-items: center; background: var(--soft); border-bottom: 1px solid var(--line); color: var(--teal); }
-  .pose svg { width: 100%; height: 100%; max-width: 180px; }
+  .duration { min-height: 70px; padding: 10px 12px; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); transition: .18s ease; }
+  .duration b { display: block; font: 700 1.8rem/1 "Barlow Condensed", sans-serif; }
+  .duration span { color: var(--muted); font-size: .66rem; }
+  .duration.active { background: var(--teal); color: var(--on-teal); border-color: var(--teal); box-shadow: 0 5px 14px rgba(11,125,121,.18); }
+  .duration.active span { color: rgba(255,255,255,.85); }
+  .duration:hover { transform: translateY(-2px); border-color: var(--teal); }
+  @media (max-width: 380px) { .duration-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; background: var(--soft); border-radius: 10px; }
+  .segmented label { position: relative; display: block; }
+  .segmented input { position: absolute; opacity: 0; pointer-events: none; }
+  .segmented span { display: block; padding: 9px; border-radius: 8px; text-align: center; color: var(--muted); font-size: .8rem; font-weight: 500; }
+  .segmented input:checked + span { background: var(--card); color: var(--teal); font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+
+  .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (min-width: 980px) { .goal-grid { grid-template-columns: repeat(4, 1fr); } }
+  .goal-card { position: relative; display: block; }
+  .goal-card input { position: absolute; opacity: 0; pointer-events: none; }
+  .goal-inner { display: block; min-height: 58px; padding: 9px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 9px; }
+  .goal-inner b { display: block; color: var(--ink); font-size: .82rem; }
+  .goal-inner small { display: block; margin-top: 2px; color: var(--muted); font-size: .64rem; }
+  .goal-card input:checked + .goal-inner { border-color: var(--teal); background: var(--soft); }
+  .goal-card input:checked + .goal-inner b { color: var(--teal); }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; display: inline-block; }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip span { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); color: var(--muted); font-size: .74rem; }
+  .chip input:checked + span { border-color: var(--teal); background: var(--soft); color: var(--teal); }
+  .chip.limit input:checked + span { border-color: var(--signal); background: var(--signal-soft); color: var(--signal); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border: 1px solid transparent; border-radius: 11px; font-weight: 700; font-size: .84rem; transition: .15s ease; }
+  .btn.primary { background: var(--signal); color: var(--on-signal); }
+  .btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+  .btn.danger { background: transparent; border-color: var(--signal); color: var(--signal); }
+  .btn:hover { filter: brightness(1.06); }
+
+  .preview-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); }
+  .preview-kicker { color: var(--teal); font: 400 .62rem "DM Mono", monospace; letter-spacing: .12em; }
+  .preview-card h2 { margin: 6px 0 2px; color: var(--navy); font: 700 1.22rem "Noto Sans SC", sans-serif; }
+  .preview-sub { margin: 0; color: var(--muted); font-size: .7rem; }
+  .preview-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 4px; }
+  .meta-pill { display: inline-flex; align-items: center; min-height: 24px; padding: 0 9px; border-radius: 99px; background: var(--soft); color: var(--teal); font: 400 .62rem "DM Mono", monospace; }
+  .meta-pill.muted { background: var(--paper); color: var(--muted); border: 1px solid var(--line); }
+  .preview-phases { margin: 12px 0 0; border-top: 1px solid var(--line); }
+  .preview-phase { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .preview-phase .num { color: var(--muted); font: 400 .58rem "DM Mono", monospace; }
+  .preview-phase h3 { margin: 0; color: var(--ink); font-size: .78rem; }
+  .preview-phase p { margin: 1px 0 0; color: var(--muted); font-size: .64rem; }
+  .preview-phase .time { color: var(--teal); font: 500 .66rem "DM Mono", monospace; }
+  .preview-notes { margin: 12px 0 0; color: var(--muted); font-size: .68rem; line-height: 1.65; }
+  .preview-summary-line { display: none; margin: 8px 0 0; color: var(--muted); font-size: .66rem; }
+  .preview-start { width: 100%; margin-top: 16px; }
+  .preview-reshuffle { width: 100%; margin-top: 8px; }
+  .text-link { display: inline-block; margin-top: 14px; padding: 0; border: 0; background: none; color: var(--teal); font-size: .7rem; text-decoration: underline; }
+  .preview-disclaimer { margin: 16px 0 0; color: var(--muted); font-size: .62rem; }
+  @media (max-width: 979px) {
+    .preview-phases, .preview-start, .preview-reshuffle, .preview-disclaimer, .preview-kicker, .preview-sub { display: none; }
+    .preview-card { padding: 14px 16px; }
+    .preview-card h2 { font-size: 1rem; margin-top: 0; }
+    .preview-meta { margin: 8px 0 0; }
+    .preview-summary-line { display: block; }
+    .preview-notes { margin-top: 6px; }
+  }
+
+  .footer { margin-top: 34px; color: var(--muted); font-size: .68rem; text-align: center; }
+  .mobile-start-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--card); border-top: 1px solid var(--line); box-shadow: 0 -8px 24px rgba(0,0,0,.06); }
+  .mobile-start-bar strong { display: block; color: var(--ink); font-size: .76rem; }
+  .mobile-start-bar span { display: block; color: var(--muted); font-size: .64rem; }
+  .mobile-start-bar > div { flex: 1; min-width: 0; }
+  #bar-summary { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mobile-start-bar .btn { min-width: 150px; }
+  @media (min-width: 980px) { .mobile-start-bar { display: none; } }
+
+  .pose { display: grid; place-items: center; overflow: hidden; background: var(--soft); color: var(--teal); }
+  .pose svg { display: block; width: 100%; height: 100%; }
   .pose .figure { fill: none; stroke: currentColor; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
   .pose .joint { fill: var(--signal); stroke: none; }
-  .pose .ground { stroke: var(--line); stroke-width: 3; }
+  .pose .ground { fill: none; stroke: var(--line); stroke-width: 3; }
   .pose .arrow { fill: none; stroke: var(--signal); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-  .demo-copy { padding: 13px 14px 8px; }
-  .demo-copy h3 { color: var(--navy); font-size: 1rem; margin: 0 0 4px; }
-  .demo-copy p { color: var(--muted); font-size: .77rem; margin: 0; }
-  .video-link { margin: 0 14px 14px; display: inline-flex; justify-content: center; align-items: center; min-height: 35px; background: var(--ink); color: #fff; text-decoration: none; border-radius: 4px; font-size: .76rem; font-weight: 700; }
-  .video-link:hover { background: var(--teal); }
-  .safety { border-left: 3px solid var(--signal); padding: 12px 15px; background: color-mix(in srgb, var(--signal) 8%, var(--card)); color: var(--muted); font-size: .82rem; border-radius: 0 6px 6px 0; }
-  .safety b { color: var(--ink); }
-  .footer { margin-top: 28px; color: var(--muted); font-size: .73rem; text-align: center; }
-  @media (max-width: 580px) {
-    .shell { padding: 12px 12px 56px; }
-    .topbar { margin-bottom: 15px; }
-    .hero { padding: 25px 19px 20px; border-radius: 6px 26px 6px 6px; }
-    .duration-grid { grid-template-columns: repeat(2, 1fr); }
-    .work-grid, .ref-list, .demo-grid { grid-template-columns: 1fr; }
-    .section-lead { display: block; }
-    .section-note { margin-top: 7px; }
-    .work-card { min-height: 179px; }
-  }
-  @media (min-width: 700px) {
-    .work-grid { grid-template-columns: repeat(4, 1fr); }
-    .demo-grid { grid-template-columns: repeat(3, 1fr); }
-    .work-card { min-height: 228px; }
-  }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
-</style>
+  .player .pose { background: #17333c; color: var(--player-rest); }
+  .player .pose .ground { stroke: var(--player-line); }
+  .player .pose .joint { fill: var(--player-work); }
+  .player .pose .arrow { stroke: var(--player-work); }
 
-<div class="shell">
+  /* ---------- player ---------- */
+  .player-dialog { position: fixed; inset: 0; margin: 0; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; border: 0; border-radius: 0; padding: 0; background: var(--player-bg); color: var(--player-ink); overflow: hidden; }
+  .player-dialog[open] { display: block; }
+  .player-dialog::backdrop { background: #0b1c24; }
+  .player { position: relative; display: grid; grid-template-rows: auto 1fr auto; height: 100%; background: var(--player-bg); padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); overflow: hidden; }
+  .player[data-state="rest"], .player[data-state="roundRest"] { background: var(--player-rest-bg); }
+  .session-progress { position: absolute; z-index: 4; top: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,.08); }
+  #session-progress-fill { width: 0; height: 100%; background: var(--player-work); transition: width .2s linear; }
+  .player[data-state="rest"] #session-progress-fill, .player[data-state="roundRest"] #session-progress-fill { background: var(--player-rest); }
+
+  .player-top { position: relative; z-index: 3; display: grid; grid-template-columns: 88px 1fr 88px; align-items: center; padding: 10px 14px 4px; }
+  .player-top .icon-btn { color: var(--player-muted); }
+  .player-top .icon-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
+  .player-top-mid { min-width: 0; text-align: center; }
+  .player-phase { display: block; overflow: hidden; color: var(--player-muted); font-size: .74rem; text-overflow: ellipsis; white-space: nowrap; }
+  .player-top-actions { display: flex; justify-content: flex-end; gap: 2px; }
+
+  .player-main { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  .player-timer { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 6px 24px 8px; }
+  .state-pill { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 16px; padding: 6px 14px; border-radius: 99px; background: rgba(255,155,114,.12); color: var(--player-work); font-size: .68rem; font-weight: 500; }
+  .state-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .player[data-state="rest"] .state-pill, .player[data-state="roundRest"] .state-pill { background: rgba(73,200,190,.12); color: var(--player-rest); }
+  .ring-wrap { position: relative; flex: 0 0 auto; width: 240px; height: 240px; }
+  .ring { display: block; width: 100%; height: 100%; }
+  .ring-track { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 8; }
+  .ring-progress { fill: none; stroke: var(--player-work); stroke-width: 10; stroke-linecap: round; }
+  .player[data-state="rest"] .ring-progress, .player[data-state="roundRest"] .ring-progress { stroke: var(--player-rest); }
+  .countdown { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 700 76px/1 "Barlow Condensed", sans-serif; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+  .exercise-name { margin: 18px 0 0; color: #fff; font: 700 1.8rem/1.15 "Noto Sans SC", sans-serif; text-align: center; }
+  .exercise-cues { margin-top: 8px; color: var(--player-muted); font-size: .78rem; line-height: 1.65; text-align: center; }
+  .badge-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-top: 14px; }
+  .badge { display: inline-flex; align-items: center; min-height: 23px; padding: 0 10px; border-radius: 99px; background: #17333c; color: var(--player-rest); font: 400 .6rem "DM Mono", monospace; }
+  .badge.muted { color: var(--player-muted); }
+  .next-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; max-width: 342px; margin-top: 16px; padding: 11px 14px; border-radius: 14px; background: var(--player-sheet); }
+  .next-copy { min-width: 0; }
+  .next-label { display: block; color: var(--player-muted); font: 400 .58rem "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .next-card strong { display: block; overflow: hidden; margin-top: 2px; color: #fff; font-size: .88rem; text-overflow: ellipsis; white-space: nowrap; }
+  .next-time { display: block; margin-top: 1px; color: var(--player-rest); font: 400 .6rem "DM Mono", monospace; }
+  .next-pose { flex: 0 0 auto; width: 56px; height: 46px; border-radius: 10px; }
+  .round-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+  .round-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--player-line); }
+  .round-dots span.done { background: var(--player-work); }
+  .round-dots span.current { background: var(--player-work); box-shadow: 0 0 0 4px rgba(255,155,114,.18); }
+  .player[data-state="rest"] .round-dots span.done, .player[data-state="rest"] .round-dots span.current,
+  .player[data-state="roundRest"] .round-dots span.done, .player[data-state="roundRest"] .round-dots span.current { background: var(--player-rest); }
+  .round-label { margin-top: 6px; color: var(--player-muted); font: 400 .6rem "DM Mono", monospace; text-align: center; }
+
+  .player-bottom { position: relative; z-index: 3; padding: 0 24px 16px; }
+  .controls { display: flex; align-items: center; justify-content: center; gap: 28px; padding: 6px 0 12px; }
+  .control-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 44px; padding: 0 10px; border: 1px solid var(--player-line); border-radius: 10px; background: transparent; color: var(--player-muted); font-size: .68rem; }
+  .control-btn:hover { border-color: var(--player-muted); color: #fff; }
+  .control-main { display: grid; place-items: center; width: 76px; height: 76px; border: 0; border-radius: 50%; background: var(--player-work); color: #08161d; box-shadow: 0 8px 22px rgba(255,155,114,.22); }
+  .control-main:hover { filter: brightness(1.05); }
+  .player[data-state="rest"] .control-main, .player[data-state="roundRest"] .control-main { background: var(--player-rest); box-shadow: 0 8px 22px rgba(73,200,190,.2); }
+  .control-main .icon { width: 26px; height: 26px; stroke-width: 2.4; }
+  .player-progress-track { height: 4px; overflow: hidden; border-radius: 2px; background: var(--player-line); }
+  .player-progress-fill { width: 0; height: 100%; border-radius: 2px; background: var(--player-work); transition: width .2s linear; }
+  .player[data-state="rest"] .player-progress-fill, .player[data-state="roundRest"] .player-progress-fill { background: var(--player-rest); }
+  .progress-labels { display: flex; justify-content: space-between; margin-top: 7px; color: var(--player-muted); font: 400 .58rem "DM Mono", monospace; }
+
+  .player-phase { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 420px; margin: 0 auto; padding: 16px 24px 20px; text-align: center; }
+  .phase-eyebrow { margin: 0; color: var(--player-rest); font: 400 .6rem "DM Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+  .phase-title { margin: 8px 0 4px; color: #fff; font: 700 2rem/1.1 "Noto Sans SC", sans-serif; }
+  .phase-hint { margin: 0; color: var(--player-muted); font-size: .73rem; }
+  .phase-card { position: relative; overflow: hidden; width: 100%; max-width: 342px; margin-top: 18px; padding: 20px 20px 14px; border-radius: 18px; background: var(--player-sheet); text-align: left; }
+  .phase-watermark { position: absolute; top: 0; right: 10px; color: rgba(73,200,190,.1); font: 700 108px/1 "Barlow Condensed", sans-serif; }
+  .phase-list { position: relative; z-index: 1; margin: 0; padding: 0; list-style: none; }
+  .phase-list li { display: flex; align-items: center; gap: 12px; padding: 10px 0; color: #fff; font-size: .84rem; }
+  .phase-list li::before { content: "✓"; display: grid; flex: 0 0 auto; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #173b45; color: var(--player-rest); font-size: .65rem; }
+  .phase-note { position: relative; z-index: 1; margin: 12px 0 0; padding-top: 11px; border-top: 1px solid var(--player-line); color: var(--player-muted); font-size: .68rem; line-height: 1.6; }
+  .phase-pose { width: 120px; height: 92px; margin: 8px auto 0; border-radius: 12px; }
+  .phase-cta { width: 100%; max-width: 342px; margin-top: 10px; }
+  .phase-hint-bottom { margin: 10px 0 0; color: var(--player-muted); font-size: .62rem; }
+
+  .player-complete { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 420px; margin: 0 auto; padding: 20px 24px; text-align: center; }
+  .complete-check { display: grid; place-items: center; width: 116px; height: 116px; margin-bottom: 24px; border-radius: 50%; background: var(--player-rest); color: var(--player-bg); font: 700 3rem/1 "Barlow Condensed", sans-serif; box-shadow: 0 0 0 26px rgba(73,200,190,.06); }
+  .complete-eyebrow { margin: 0; color: var(--player-rest); font: 400 .6rem "DM Mono", monospace; letter-spacing: .12em; }
+  .player-complete h2 { margin: 6px 0 0; color: #fff; font: 700 2.7rem/1.05 "Noto Sans SC", sans-serif; }
+  .complete-sub { margin: 6px 0 0; color: var(--player-muted); font-size: .9rem; }
+  .complete-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 342px; margin-top: 22px; }
+  .complete-stats div { padding: 14px 8px; border-radius: 12px; background: var(--player-sheet); }
+  .complete-stats strong { display: block; color: #fff; font: 700 1.8rem/1 "Barlow Condensed", sans-serif; }
+  .complete-stats span { display: block; margin-top: 4px; color: var(--player-muted); font-size: .6rem; }
+  .complete-note { margin: 14px 0 0; color: var(--player-muted); font-size: .66rem; }
+  .player-complete .btn { width: 100%; max-width: 342px; margin-top: 10px; }
+  .player-complete .btn.ghost { border-color: var(--player-line); color: #fff; }
+  .complete-safety { display: flex; gap: 12px; width: 100%; max-width: 342px; margin-top: 18px; padding: 14px; border-radius: 14px; background: var(--player-sheet); color: #fff; text-align: left; font-size: .7rem; line-height: 1.6; }
+  .complete-safety .icon { flex: 0 0 auto; width: 22px; height: 22px; margin-top: 1px; color: var(--player-rest); }
+  .complete-safety span { display: block; color: var(--player-muted); font-size: .62rem; }
+
+  .pause-backdrop { position: absolute; inset: 0; z-index: 20; background: rgba(3,12,16,.62); backdrop-filter: blur(2px); }
+  .pause-sheet { position: absolute; right: 0; bottom: 0; left: 0; z-index: 21; max-height: 90%; overflow-y: auto; padding: 12px 20px calc(20px + env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; background: var(--player-sheet); color: #fff; }
+  .sheet-handle { width: 48px; height: 4px; margin: 0 auto 14px; border-radius: 2px; background: var(--player-line); }
+  .pause-sheet h2 { margin: 0; color: #fff; font: 700 1.3rem "Noto Sans SC", sans-serif; }
+  .pause-sub { margin: 2px 0 14px; color: var(--player-muted); font: 400 .6rem "DM Mono", monospace; }
+  .pause-sheet .btn { width: 100%; margin-top: 8px; }
+  .pause-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .pause-row .btn { min-height: 44px; margin-top: 0; border-color: transparent; background: #1d3944; color: #fff; }
+  .sound-panel { margin-top: 14px; padding: 14px; border-radius: 14px; background: #0f252e; }
+  .sound-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+  .sound-head strong { font-size: .76rem; }
+  .sound-head span { color: var(--player-muted); font-size: .56rem; }
+  .switch-row { display: flex; align-items: center; justify-content: space-between; min-height: 40px; font-size: .72rem; cursor: pointer; }
+  .switch-input { position: relative; flex: 0 0 auto; width: 44px; height: 26px; border: 0; border-radius: 99px; background: #2b4652; appearance: none; cursor: pointer; transition: .18s ease; }
+  .switch-input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: .18s ease; }
+  .switch-input:checked { background: var(--player-rest); }
+  .switch-input:checked::after { left: 21px; }
+  .switch-input:disabled { opacity: .35; cursor: not-allowed; }
+  .sound-note { margin: 7px 0 0; color: var(--player-muted); font-size: .56rem; line-height: 1.5; }
+  .pause-note { margin: 10px 0 0; color: var(--player-muted); font-size: .58rem; text-align: center; }
+
+  /* ---------- dialogs ---------- */
+  .sheet-dialog { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; max-height: 92dvh; overflow: hidden; padding: 0; border: 0; border-radius: 20px 20px 0 0; background: var(--card); color: var(--ink); }
+  .sheet-dialog::backdrop { background: rgba(3,12,16,.55); backdrop-filter: blur(2px); }
+  .sheet-inner { max-height: 92dvh; overflow-y: auto; padding: 18px 18px calc(20px + env(safe-area-inset-bottom)); }
+  .sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .sheet-head h2 { margin: 0; color: var(--navy); font: 700 1.12rem "Noto Sans SC", sans-serif; }
+  .sheet-sub { margin: 2px 0 0; color: var(--muted); font-size: .66rem; }
+  .sheet-close { flex: 0 0 auto; }
+  @media (min-width: 700px) {
+    .sheet-dialog { inset: 0; margin: auto; max-width: 920px; max-height: 88vh; border-radius: 18px; }
+    .sheet-inner { max-height: 88vh; padding: 24px; }
+  }
+  .quality-card { margin-top: 14px; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); }
+  .quality-card h3 { margin: 0 0 7px; color: var(--navy); font-size: .78rem; }
+  .quality-points { display: flex; flex-wrap: wrap; gap: 10px 18px; color: var(--teal); font-size: .68rem; }
+  .quality-note { margin: 7px 0 0; color: var(--muted); font-size: .62rem; }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 10px; }
+  .filter-btn { min-height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); color: var(--muted); font-size: .68rem; }
+  .filter-btn.active { border-color: var(--teal); background: var(--teal); color: var(--on-teal); }
+  .filter-btn.soft.active { background: var(--soft); color: var(--teal); }
+  .library-count { margin: 0 0 9px; color: var(--muted); font: 400 .6rem "DM Mono", monospace; }
+  .exercise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (min-width: 700px) { .exercise-grid { grid-template-columns: repeat(3, 1fr); } }
+  .exercise-card { display: block; overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); text-align: left; }
+  .exercise-card:hover { border-color: var(--teal); }
+  .exercise-card .pose { height: 90px; border-radius: 0; }
+  .exercise-body { display: block; padding: 9px 11px 11px; }
+  .exercise-title { display: block; color: var(--navy); font-size: .78rem; font-weight: 700; }
+  .exercise-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag { display: inline-flex; align-items: center; min-height: 20px; padding: 0 7px; border-radius: 4px; background: var(--soft); color: var(--teal); font: 400 .56rem "DM Mono", monospace; }
+  .tag.warn { background: var(--signal-soft); color: var(--signal); }
+  .difficulty { margin-left: auto; color: var(--teal); font-size: .48rem; letter-spacing: 1px; }
+  .difficulty .off { color: var(--line); }
+
+  #tips-dialog { background: var(--player-sheet); color: #fff; max-width: 560px; }
+  #tips-dialog .sheet-inner { padding: 0; }
+  .tips-top { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 4px; }
+  .tips-top h2 { margin: 0; color: #fff; font: 700 1rem "Noto Sans SC", sans-serif; }
+  .tips-status { color: var(--player-rest); font: 400 .58rem "DM Mono", monospace; margin-left: auto; }
+  .tips-scroll { max-height: calc(88vh - 64px); overflow-y: auto; padding: 0 20px calc(20px + env(safe-area-inset-bottom)); }
+  @media (max-width: 699px) { .tips-scroll { max-height: calc(92dvh - 60px); } }
+  .tips-pose { height: 196px; margin: 10px 0 0; border-radius: 16px; background: #17333c; color: var(--player-rest); }
+  .tips-pose .ground { stroke: var(--player-line); }
+  .tips-pose .joint { fill: var(--player-work); }
+  .tips-pose .arrow { stroke: var(--player-work); }
+  .tips-name { margin: 16px 0 0; color: #fff; font: 700 1.6rem "Noto Sans SC", sans-serif; }
+  .tips-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  #tips-dialog .tag { background: #17333c; color: var(--player-rest); }
+  .tips-section { margin-top: 18px; }
+  .tips-label { margin: 0 0 6px; color: var(--player-rest); font: 400 .58rem "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .tips-text { margin: 0; color: #d7ebea; font-size: .74rem; line-height: 1.7; }
+  .tips-list { margin: 0; padding: 0; list-style: none; }
+  .tips-list li { display: flex; gap: 10px; padding: 5px 0; color: #fff; font-size: .72rem; line-height: 1.6; }
+  .tips-list li::before { content: "✓"; display: grid; flex: 0 0 auto; place-items: center; width: 17px; height: 17px; margin-top: 2px; border-radius: 50%; background: #173b45; color: var(--player-rest); font-size: .55rem; }
+  .tips-list.mistakes li::before { content: "•"; background: transparent; color: var(--player-signal, var(--signal)); font-size: 1rem; }
+  .tips-warning { margin-top: 14px; padding: 10px 12px; border-radius: 8px; background: rgba(239,107,66,.14); color: #ffb59e; font-size: .68rem; line-height: 1.55; }
+  .tips-adjust { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .tips-adjust div { padding: 10px; border-radius: 8px; background: #1d3944; }
+  .tips-adjust b { display: block; color: var(--player-rest); font-size: .62rem; }
+  .tips-adjust span { display: block; margin-top: 3px; color: var(--player-muted); font-size: .64rem; line-height: 1.55; }
+  .tips-video { display: inline-block; margin-top: 14px; color: var(--player-rest); font-size: .68rem; text-decoration: underline; }
+  #tips-dialog .btn { width: 100%; margin-top: 16px; }
+  .tips-hint { margin: 8px 0 0; color: var(--player-muted); font-size: .58rem; text-align: center; }
+
+  .safety-hero { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 16px; border-radius: 12px; background: var(--soft); }
+  .safety-hero-mark { display: grid; flex: 0 0 auto; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--teal); color: var(--on-teal); }
+  .safety-hero-mark .icon { width: 26px; height: 26px; }
+  .safety-hero h3 { margin: 0; color: var(--navy); font-size: .9rem; }
+  .safety-hero p { margin: 3px 0 0; color: var(--muted); font-size: .66rem; }
+  .safety-block { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .safety-block:last-of-type { border-bottom: 0; }
+  .safety-num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--soft); color: var(--teal); font: 500 .58rem "DM Mono", monospace; }
+  .safety-num.warn { background: var(--signal-soft); color: var(--signal); }
+  .safety-block h3 { margin: 0; color: var(--navy); font-size: .8rem; }
+  .safety-block p { margin: 4px 0 0; color: var(--muted); font-size: .68rem; line-height: 1.65; }
+  .safety-disclaimer { margin: 8px 0 0; color: var(--muted); font-size: .6rem; line-height: 1.6; }
+  .safety-cta { width: 100%; margin-top: 16px; }
+
+  #sound-dialog .sheet-inner, #exit-dialog .sheet-inner { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+  .sound-dialog-note { margin: 10px 0 0; color: var(--muted); font-size: .6rem; line-height: 1.6; }
+  .dialog-actions { display: flex; gap: 8px; margin-top: 18px; }
+  .dialog-actions .btn { flex: 1; }
+  .exit-copy { margin: 10px 0 0; color: var(--muted); font-size: .72rem; line-height: 1.65; }
+
+  .tips-scroll::-webkit-scrollbar, .sheet-inner::-webkit-scrollbar, .player-main::-webkit-scrollbar { width: 8px; }
+  .tips-scroll::-webkit-scrollbar-thumb, .player-main::-webkit-scrollbar-thumb { border-radius: 4px; background: var(--player-line); }
+  .sheet-inner::-webkit-scrollbar-thumb { border-radius: 4px; background: var(--line); }
+  .tips-scroll, .player-main { scrollbar-width: thin; scrollbar-color: var(--player-line) transparent; }
+  .sheet-inner { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  @media (max-height: 700px) {
+    .ring-wrap { width: 200px; height: 200px; }
+    .countdown { font-size: 62px; }
+    .exercise-name { margin-top: 12px; font-size: 1.55rem; }
+    .next-card { margin-top: 10px; }
+    .round-dots { margin-top: 9px; }
+    .phase-pose { display: none; }
+    .tips-pose { height: 150px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<svg class="svg-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a7.5 7.5 0 010 11"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7V5z"/></symbol>
+  <symbol id="i-skip" viewBox="0 0 24 24"><path d="M7 6l8 6-8 6V6z"/><path d="M18 6v12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 6.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 017.5 3H19v15H7.5A2.5 2.5 0 005 20.5V5.5z"/><path d="M5 18.5A2.5 2.5 0 017.5 16H19"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l8 15H4L12 4z"/><path d="M12 9v4M12 16v.5"/></symbol>
+</svg>
+
+<div class="shell" id="setup-screen">
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">HIIT</span>燃脂训练场</div>
-    <span class="status">低冲击 · 居家</span>
+    <div class="brand">
+      <span class="brand-mark">HIIT</span>
+      <span class="brand-name">燃脂训练场</span>
+    </div>
+    <div class="top-actions">
+      <button class="top-action" id="open-library" type="button" aria-label="打开动作库">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg><span class="label">动作库</span>
+      </button>
+      <button class="top-action" id="open-safety" type="button" aria-label="打开安全须知">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg><span class="label">安全须知</span>
+      </button>
+      <button class="icon-btn" id="open-sound" type="button" aria-label="声音设置">
+        <svg class="icon" aria-hidden="true"><use href="#i-sound"></use></svg>
+      </button>
+    </div>
   </header>
 
-  <section class="hero" aria-labelledby="page-title">
-    <p class="eyebrow">INDOOR HIIT / 30–90 MINUTES</p>
-    <h1 id="page-title">不是拼命跳。<br>是稳定地完成。</h1>
-    <p class="hero-text">为大基数设计的居家间歇训练：保留心率波动，控制关节冲击；先建立规律，再逐步加量。</p>
-    <div class="hero-rule"><span><b>40秒</b> 训练</span><span><b>20秒</b> 恢复</span><span><b>90秒</b> 轮间休息</span></div>
-  </section>
+  <main class="app-main">
+    <div class="settings-col">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-watermark" aria-hidden="true">30–90</div>
+        <p class="eyebrow">INDOOR HIIT / 30–90 MINUTES</p>
+        <h1 id="page-title">不是拼命跳。<br>是稳定地完成。</h1>
+        <p class="hero-text">选时长、目标和身体条件，系统会排好动作与休息。</p>
+        <div class="hero-rule"><span><b>40秒</b> 训练</span><span><b>20秒</b> 恢复</span><span><b>90秒</b> 轮间</span></div>
+      </section>
 
-  <main>
-    <section aria-labelledby="duration-heading">
-      <div class="section-lead">
-        <div><p class="routine-label">选择今天的训练</p><h2 id="duration-heading">今天练多久？</h2></div>
-        <p class="section-note">不用每次都挑战最长版本。状态一般时，完成 30 分钟也算赢。</p>
-      </div>
-      <div class="duration-grid" role="group" aria-label="选择训练时长">
-        <button class="duration" data-plan="30" aria-pressed="false"><b>30</b><span>快速完成</span></button>
-        <button class="duration active" data-plan="45" aria-pressed="true"><b>45</b><span>标准训练</span></button>
-        <button class="duration" data-plan="60" aria-pressed="false"><b>60</b><span>进阶耐力</span></button>
-        <button class="duration" data-plan="90" aria-pressed="false"><b>90</b><span>周末长版</span></button>
-      </div>
-    </section>
+      <section class="setting-block" aria-labelledby="duration-heading">
+        <div class="section-head"><h2 id="duration-heading">今天练多久？</h2><p>不用每次都挑战最长版本</p></div>
+        <div class="duration-grid" role="group" aria-label="训练时长">
+          <button class="duration" type="button" data-duration="30" aria-pressed="false"><b>30</b><span>快速完成</span></button>
+          <button class="duration active" type="button" data-duration="45" aria-pressed="true"><b>45</b><span>标准训练</span></button>
+          <button class="duration" type="button" data-duration="60" aria-pressed="false"><b>60</b><span>进阶耐力</span></button>
+          <button class="duration" type="button" data-duration="90" aria-pressed="false"><b>90</b><span>周末长版</span></button>
+        </div>
+      </section>
 
-    <section class="session" aria-live="polite" aria-labelledby="session-heading">
-      <div class="session-head">
-        <div><h2 class="session-title" id="session-heading">45 分钟 · 标准训练</h2><p class="session-subtitle" id="session-subtitle">把一轮做好，比硬撑更多轮重要。</p></div>
-        <span class="total" id="total-time">TOTAL 45 MIN</span>
-      </div>
-      <div class="blocks" id="plan-blocks"></div>
-    </section>
+      <section class="setting-block" aria-labelledby="level-heading">
+        <div class="section-head"><h2 id="level-heading">训练水平</h2></div>
+        <div class="segmented">
+          <label><input type="radio" name="level" value="beginner" checked><span>新手</span></label>
+          <label><input type="radio" name="level" value="advanced"><span>进阶</span></label>
+        </div>
+      </section>
 
-    <section class="timer" aria-label="间歇计时器">
-      <div><div class="timer-label" id="timer-label">准备开始</div><p class="timer-name" id="timer-name">选择一个动作，按开始进入 40 秒训练</p></div>
-      <div class="timer-count" id="timer-count">00:40</div>
-      <div class="timer-controls"><button class="action primary" id="start-button">开始 40 秒</button><button class="action secondary" id="reset-button">重置</button></div>
-    </section>
+      <section class="setting-block" aria-labelledby="goal-heading">
+        <div class="section-head"><h2 id="goal-heading">今天的目标</h2></div>
+        <div class="goal-grid">
+          <label class="goal-card"><input type="radio" name="goal" value="fat-burn"><span class="goal-inner"><b>燃脂</b><small>心率波动优先</small></span></label>
+          <label class="goal-card"><input type="radio" name="goal" value="strength"><span class="goal-inner"><b>力量</b><small>动作质量优先</small></span></label>
+          <label class="goal-card"><input type="radio" name="goal" value="core"><span class="goal-inner"><b>核心</b><small>稳定与控制</small></span></label>
+          <label class="goal-card"><input type="radio" name="goal" value="balanced" checked><span class="goal-inner"><b>均衡</b><small>各模块平衡</small></span></label>
+        </div>
+      </section>
 
-    <section aria-labelledby="circuit-heading">
-      <div class="section-lead">
-        <div><p class="routine-label">主循环 · 4 个配对</p><h2 id="circuit-heading">把熟悉动作，练得更友好</h2></div>
-        <p class="section-note">每个配对：A 40 秒 → B 40 秒 → 休息 20 秒。完成 4 个配对算 1 轮。</p>
-      </div>
-      <div class="work-grid">
-        <article class="work-card" data-number="01"><span class="tag">配对 A</span><h3>空气跳绳<br>＋ 无跳跃开合</h3><p>原地轻踏或小幅离地，随后左右点地开合。全程保持膝盖微屈。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">低冲击</span></div></article>
-        <article class="work-card" data-number="02"><span class="tag">配对 B</span><h3>快速踏步<br>＋ 提膝击掌</h3><p>摆臂加速踏步；抬起一侧膝盖，以对侧手掌或手肘触碰。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">核心参与</span></div></article>
-        <article class="work-card" data-number="03"><span class="tag">配对 C</span><h3>空气跳绳<br>＋ 扶墙侧抬腿</h3><p>扶稳墙面，左右各 20 秒；腿向侧抬起，慢慢放回，骨盆别歪。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">髋部稳定</span></div></article>
-        <article class="work-card" data-number="04"><span class="tag">配对 D</span><h3>快速踏步<br>＋ 扶墙后踢腿</h3><p>脚跟向臀部靠近，不甩腰；踏步负责心率，后踢腿负责腿后侧激活。</p><div class="move-meta"><span class="tag">40 + 40 秒</span><span class="tag">控速完成</span></div></article>
-      </div>
-    </section>
+      <section class="setting-block" aria-labelledby="equipment-heading">
+        <div class="section-head"><h2 id="equipment-heading">可用器械</h2><p>徒手始终可用</p></div>
+        <div class="chip-row">
+          <label class="chip"><input type="checkbox" name="equipment" value="chair" checked><span>椅子</span></label>
+          <label class="chip"><input type="checkbox" name="equipment" value="wall" checked><span>墙面</span></label>
+          <label class="chip"><input type="checkbox" name="equipment" value="band"><span>弹力带</span></label>
+          <label class="chip"><input type="checkbox" name="equipment" value="dumbbell"><span>哑铃</span></label>
+        </div>
+      </section>
 
-    <section class="reference" aria-labelledby="reference-heading">
-      <div class="section-lead"><div><p class="routine-label">动作参考</p><h2 id="reference-heading">三个动作质量检查点</h2></div><p class="section-note">没有必要追求大幅度；能稳定控制，才是正确幅度。</p></div>
-      <div class="ref-list">
-        <div class="ref"><b>① 落地安静</b><span>空气跳绳时像踩薄冰：前脚掌轻落，膝微屈。如果听到重重的砸地声，改成原地踏步。</span></div>
-        <div class="ref"><b>② 膝盖对准脚尖</b><span>提膝、开合、深蹲时都观察膝盖走向。别让膝盖向内扣；动作慢一点也没关系。</span></div>
-        <div class="ref"><b>③ 躯干像一块板</b><span>侧抬腿与后踢腿时，扶墙后保持肋骨收住、骨盆平稳，不用摆腰来“借力”。</span></div>
-      </div>
-    </section>
+      <section class="setting-block" aria-labelledby="limitation-heading">
+        <div class="section-head"><h2 id="limitation-heading">身体限制</h2><p>自动避开相关负荷</p></div>
+        <div class="chip-row">
+          <label class="chip limit"><input type="checkbox" name="limitation" value="knee"><span>膝部</span></label>
+          <label class="chip limit"><input type="checkbox" name="limitation" value="back"><span>下背</span></label>
+          <label class="chip limit"><input type="checkbox" name="limitation" value="shoulder"><span>肩部</span></label>
+        </div>
+      </section>
+    </div>
 
-    <section aria-labelledby="demo-heading">
-      <div class="section-lead"><div><p class="routine-label">看图再开始</p><h2 id="demo-heading">动作图解与视频参考</h2></div><p class="section-note">图解用于抓住姿势重点；视频按钮会打开 YouTube 的对应动作搜索结果，便于选择自己觉得节奏舒适的教学。</p></div>
-      <div class="demo-grid">
-        <article class="demo-card">
-          <div class="pose" role="img" aria-label="原地踏步动作示意：上身直立，双臂自然摆动，一侧膝盖抬起。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><circle class="figure" cx="89" cy="27" r="12"/><path class="figure" d="M89 39V76M89 50L61 65M89 50L118 64M89 76L64 106M89 76L117 90L133 75"/><path class="arrow" d="M143 89V57M137 63L143 57L149 63"/><circle class="joint" cx="133" cy="75" r="4"/></svg></div>
-          <div class="demo-copy"><h3>原地踏步 / 空气跳绳</h3><p>先用快速踏步建立节奏；前脚掌轻点地、落地安静。需要时再加小幅离地。</p></div>
-          <a class="video-link" href="https://www.youtube.com/results?search_query=low+impact+marching+in+place+exercise+proper+form" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
-        </article>
-        <article class="demo-card">
-          <div class="pose" role="img" aria-label="低冲击开合动作示意：双臂向上，双脚左右点地，不需要跳起。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><circle class="figure" cx="90" cy="25" r="12"/><path class="figure" d="M90 37V76M82 43L61 21M98 43L119 21M90 76L59 109M90 76L121 109"/><path class="arrow" d="M53 112H31M37 106L31 112L37 118M127 112H149M143 106L149 112L143 118"/></svg></div>
-          <div class="demo-copy"><h3>无跳跃开合</h3><p>左右脚轮流点开、收回，同时双臂上举；髋和膝保持柔软，不必追求速度。</p></div>
-          <a class="video-link" href="https://www.youtube.com/results?search_query=low+impact+no+jump+jumping+jacks+proper+form" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
-        </article>
-        <article class="demo-card">
-          <div class="pose" role="img" aria-label="椅子深蹲动作示意：臀部向后下坐，膝盖对准脚尖，轻触椅子后站起。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><path class="figure" d="M112 75H149V113M136 75V113M69 31V60L86 74L110 84M69 45L45 64M69 60L47 83M86 74L64 108M110 84L97 112"/><circle class="figure" cx="69" cy="19" r="12"/><path class="arrow" d="M36 91V111M30 105L36 111L42 105"/></svg></div>
-          <div class="demo-copy"><h3>椅子深蹲</h3><p>臀部先向后找椅面，轻触椅子再站起。膝盖顺着脚尖，脚掌全程踩稳。</p></div>
-          <a class="video-link" href="https://www.youtube.com/results?search_query=chair+squat+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
-        </article>
-        <article class="demo-card">
-          <div class="pose" role="img" aria-label="上斜俯卧撑动作示意：双手撑在墙面或桌沿，身体成直线，屈肘靠近支撑面。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M22 121H158"/><path class="figure" d="M133 19V120M124 60L109 68L73 78L48 101M109 68L95 89M73 78L83 108"/><circle class="figure" cx="118" cy="50" r="11"/><path class="arrow" d="M105 81L115 89M108 92L115 89L112 81"/></svg></div>
-          <div class="demo-copy"><h3>上斜俯卧撑</h3><p>墙面最轻松，桌沿或沙发扶手更难。身体成一条线，肘部朝后约 45°。</p></div>
-          <a class="video-link" href="https://www.youtube.com/results?search_query=incline+push+up+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
-        </article>
-        <article class="demo-card">
-          <div class="pose" role="img" aria-label="死虫式动作示意：仰卧，腰背贴地，对侧手脚缓慢伸直。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M18 108H162"/><circle class="figure" cx="48" cy="90" r="11"/><path class="figure" d="M59 90L93 87L119 57M76 88L77 54M93 87L130 106M101 83L143 42"/><path class="arrow" d="M145 39L156 28M147 29L156 28L155 37"/><circle class="joint" cx="143" cy="42" r="4"/></svg></div>
-          <div class="demo-copy"><h3>死虫式</h3><p>慢于呼吸地伸出对侧手脚。腰一旦离地，马上缩小动作范围，不要硬伸直。</p></div>
-          <a class="video-link" href="https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
-        </article>
-        <article class="demo-card">
-          <div class="pose" role="img" aria-label="鸟狗式动作示意：四点跪姿，对侧手脚伸直，骨盆保持平稳。"><svg viewBox="0 0 180 142" aria-hidden="true"><path class="ground" d="M18 116H162"/><circle class="figure" cx="66" cy="57" r="11"/><path class="figure" d="M77 61L104 73L129 45M91 69L57 84L39 67M104 73L126 105M104 73L75 108"/><path class="arrow" d="M132 42L150 29M141 28L150 29L147 38"/><circle class="joint" cx="129" cy="45" r="4"/></svg></div>
-          <div class="demo-copy"><h3>鸟狗式</h3><p>先保持骨盆不转，再伸长对侧手脚。动作幅度不需要很大，稳定优先。</p></div>
-          <a class="video-link" href="https://www.youtube.com/results?search_query=bird+dog+exercise+proper+form+beginner" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="supplement-heading">
-      <div class="section-lead"><div><p class="routine-label">补充模块</p><h2 id="supplement-heading">力量与核心动作参考</h2></div><p class="section-note">每项 40 秒，项目间休息 20 秒；完成后休息 60 秒再进行下一轮。</p></div>
-      <div class="work-grid">
-        <article class="work-card" data-number="L1"><span class="tag">力量</span><h3>椅子深蹲</h3><p>臀部向后找椅面，轻触后站起；脚掌全程踩稳。膝不适时减少下蹲深度。</p><div class="move-meta"><span class="tag">触椅即起</span></div></article>
-        <article class="work-card" data-number="L2"><span class="tag">力量</span><h3>上斜俯卧撑</h3><p>双手撑墙、桌沿或沙发扶手；身体从头到膝/脚成直线，肘向后约 45°。</p><div class="move-meta"><span class="tag">墙面最简单</span></div></article>
-        <article class="work-card" data-number="C1"><span class="tag">核心</span><h3>死虫式</h3><p>仰卧屈膝，缓慢伸出对侧手脚；腰部始终贴地。腰离地时立刻缩小幅度。</p><div class="move-meta"><span class="tag">慢于呼吸</span></div></article>
-        <article class="work-card" data-number="C2"><span class="tag">核心</span><h3>鸟狗式</h3><p>四点跪姿，伸出对侧手脚；先保持骨盆不转，再追求伸得更远。</p><div class="move-meta"><span class="tag">左右各 20 秒</span></div></article>
-      </div>
-    </section>
-
-    <aside class="safety"><b>安全阈值：</b>训练强度维持在 RPE 6–7/10——可以说短句，但不能唱歌。出现胸痛、眩晕、关节刺痛、异常心悸时立即停止。当天膝踝不舒服，所有“跳”一律改为快速踏步。</aside>
+    <aside class="preview-col">
+      <section class="preview-card" aria-labelledby="preview-title">
+        <div class="preview-kicker">TODAY'S SESSION</div>
+        <h2 id="preview-title">45 分钟 · 均衡 · 新手</h2>
+        <p class="preview-sub">今天为你排好的一节课</p>
+        <div class="preview-meta" id="preview-meta"></div>
+        <div class="preview-phases" id="preview-phases"></div>
+        <p class="preview-summary-line" id="preview-summary-line"></p>
+        <p class="preview-notes" id="preview-notes"></p>
+        <button class="btn primary preview-start" id="preview-start" type="button">开始训练</button>
+        <button class="btn ghost preview-reshuffle" id="preview-reshuffle" type="button">换一组动作</button>
+        <button class="text-link" id="preview-library" type="button">浏览全部动作 ↗</button>
+        <p class="preview-disclaimer">本次训练不会保存记录</p>
+      </section>
+    </aside>
   </main>
+
+  <div class="mobile-start-bar">
+    <div><strong id="bar-time">预计 45 分钟</strong><span id="bar-summary">含热身与拉伸</span></div>
+    <button class="btn primary" id="bar-start" type="button">开始训练</button>
+  </div>
+
   <footer class="footer">居家燃脂计划 · 先稳定完成，再逐步加量 · 每周至少留出 1–2 天完全休息</footer>
 </div>
 
+<dialog class="player-dialog" id="player-dialog" aria-label="训练播放器">
+  <div class="player" id="player" data-state="work">
+    <div class="session-progress" id="session-progress" role="progressbar" aria-label="训练进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="session-progress-fill"></div></div>
+
+    <header class="player-top">
+      <button class="icon-btn" id="player-close" type="button" aria-label="退出训练">
+        <svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg>
+      </button>
+      <div class="player-top-mid"><span class="player-phase" id="player-phase-label">主循环 · 第 1/2 轮</span></div>
+      <div class="player-top-actions">
+        <button class="icon-btn" id="player-tips-btn" type="button" aria-label="动作提示">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+        </button>
+        <button class="icon-btn" id="player-sound-btn" type="button" aria-label="声音设置">
+          <svg class="icon" aria-hidden="true"><use href="#i-sound"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="player-main">
+      <section class="player-timer" id="player-timer" aria-label="计时训练">
+        <div class="state-pill" id="state-pill">训练中</div>
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 240 240" aria-hidden="true">
+            <circle class="ring-track" cx="120" cy="120" r="104"></circle>
+            <circle class="ring-progress" id="ring-progress" cx="120" cy="120" r="104" stroke-dasharray="0 653.45" transform="rotate(-90 120 120)"></circle>
+          </svg>
+          <div class="countdown" id="countdown" aria-hidden="true">00:30</div>
+        </div>
+        <h2 class="exercise-name" id="exercise-name">原地快速踏步</h2>
+        <div class="exercise-cues" id="exercise-cues"></div>
+        <div class="badge-row" id="exercise-badges"></div>
+        <div class="next-card">
+          <div class="next-copy">
+            <span class="next-label">下一个</span>
+            <strong id="next-name">无跳跃开合</strong>
+            <span class="next-time" id="next-time">30 秒</span>
+          </div>
+          <div class="next-pose pose" id="next-pose" aria-hidden="true"></div>
+        </div>
+        <div class="round-dots" id="round-dots" aria-hidden="true"></div>
+        <div class="round-label" id="round-label">动作 1/4</div>
+      </section>
+
+      <section class="player-phase" id="player-phase" hidden>
+        <p class="phase-eyebrow" id="phase-eyebrow">SELF-PACED / 自选节奏</p>
+        <h2 class="phase-title" id="phase-title">动态热身</h2>
+        <p class="phase-hint" id="phase-hint">约 6 分钟 · 本段不计时</p>
+        <div class="phase-card">
+          <div class="phase-watermark" id="phase-watermark" aria-hidden="true">01</div>
+          <ul class="phase-list" id="phase-list"></ul>
+          <p class="phase-note" id="phase-note"></p>
+        </div>
+        <div class="phase-pose pose" id="phase-pose" aria-hidden="true"></div>
+        <button class="btn primary phase-cta" id="phase-cta" type="button">开始主循环</button>
+        <p class="phase-hint-bottom" id="phase-hint-bottom">按自己的节奏完成热身</p>
+      </section>
+
+      <section class="player-complete" id="player-complete" hidden>
+        <div class="complete-check" aria-hidden="true">✓</div>
+        <p class="complete-eyebrow">SESSION COMPLETE / 训练完成</p>
+        <h2>完成。</h2>
+        <p class="complete-sub">今天的目标达成了。</p>
+        <div class="complete-stats">
+          <div><strong id="complete-time">32:10</strong><span>计时</span></div>
+          <div><strong id="complete-rounds">3</strong><span>轮</span></div>
+          <div><strong id="complete-moves">12</strong><span>个动作</span></div>
+        </div>
+        <p class="complete-note">本次训练不会保存记录。</p>
+        <button class="btn primary" id="complete-again" type="button">再练一次</button>
+        <button class="btn ghost" id="complete-home" type="button">返回首页</button>
+        <div class="complete-safety">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+          <div>训练后补水，做 2 分钟慢走。<span>如果关节有刺痛感，明天优先休息。</span></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="player-bottom" id="player-bottom">
+      <div class="controls">
+        <button class="control-btn" id="extend-btn" type="button">+15s</button>
+        <button class="control-main" id="pause-btn" type="button" aria-label="暂停训练">
+          <svg class="icon" aria-hidden="true"><use href="#i-pause"></use></svg>
+        </button>
+        <button class="control-btn" id="skip-btn" type="button">跳过</button>
+      </div>
+      <div class="player-progress-track"><div class="player-progress-fill" id="bottom-progress-fill"></div></div>
+      <div class="progress-labels"><span id="elapsed">已用 00:00</span><span id="remaining">剩余 00:00</span></div>
+    </footer>
+
+    <div class="pause-backdrop" id="pause-backdrop" hidden></div>
+    <section class="pause-sheet" id="pause-sheet" role="dialog" aria-modal="true" aria-labelledby="pause-title" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <h2 id="pause-title">已暂停</h2>
+      <p class="pause-sub" id="pause-sub">主循环 · 第 1/2 轮 · 动作 1/4</p>
+      <button class="btn primary" id="resume-btn" type="button">继续训练</button>
+      <div class="pause-row">
+        <button class="btn ghost" id="pause-tips-btn" type="button">动作提示</button>
+        <button class="btn ghost" id="pause-safety-btn" type="button">安全须知</button>
+      </div>
+      <div class="sound-panel">
+        <div class="sound-head"><strong>声音设置</strong><span>可随时关闭，不影响计时</span></div>
+        <label class="switch-row"><span>主声音</span><input class="switch-input" type="checkbox" data-sound="master" role="switch" checked></label>
+        <label class="switch-row"><span>提示音</span><input class="switch-input" type="checkbox" data-sound="beep" role="switch" checked></label>
+        <label class="switch-row"><span>中文语音</span><input class="switch-input" type="checkbox" data-sound="voice" role="switch" checked></label>
+        <p class="sound-note" data-voice-note>中文语音使用系统语音，部分浏览器可能不可用</p>
+      </div>
+      <button class="btn danger" id="end-btn" type="button">结束训练</button>
+      <p class="pause-note">退出后本次训练进度不会保存</p>
+    </section>
+  </div>
+</dialog>
+
+<dialog class="sheet-dialog" id="library-dialog" aria-labelledby="library-title">
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <div><h2 id="library-title">动作库</h2><p class="sheet-sub">20 个动作 · 按身体条件筛选</p></div>
+      <button class="icon-btn sheet-close" id="library-close" type="button" aria-label="关闭动作库"><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="quality-card">
+      <h3>三个动作质量检查点</h3>
+      <div class="quality-points"><span>① 落地安静</span><span>② 膝盖对准脚尖</span><span>③ 躯干像一块板</span></div>
+      <p class="quality-note">宁可慢一点，也不要借力。能稳定控制，才是正确幅度。</p>
+    </div>
+    <div class="filter-row" id="library-filters">
+      <button class="filter-btn active" type="button" data-filter-cat="all">全部</button>
+      <button class="filter-btn" type="button" data-filter-cat="cardio">心肺</button>
+      <button class="filter-btn" type="button" data-filter-cat="strength">力量</button>
+      <button class="filter-btn" type="button" data-filter-cat="core">核心</button>
+      <button class="filter-btn soft" type="button" data-filter-suitable="true">只看适合我的</button>
+      <button class="filter-btn soft" type="button" data-filter-low="true">只看低冲击</button>
+    </div>
+    <p class="library-count" id="library-count">共 20 个动作</p>
+    <div class="exercise-grid" id="exercise-grid"></div>
+  </div>
+</dialog>
+
+<dialog class="sheet-dialog" id="tips-dialog" aria-labelledby="tips-title">
+  <div class="sheet-inner">
+    <div class="tips-top">
+      <h2 id="tips-title">动作要领</h2>
+      <span class="tips-status" id="tips-status">计时已暂停</span>
+      <button class="icon-btn" id="tips-close-top" type="button" aria-label="关闭动作提示"><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="tips-scroll">
+      <div class="tips-pose pose" id="tips-pose" aria-hidden="true"></div>
+      <h3 class="tips-name" id="tips-name">原地快速踏步</h3>
+      <div class="tips-tags" id="tips-tags"></div>
+      <p class="tips-warning" id="tips-warning" hidden></p>
+      <div class="tips-section"><p class="tips-label">起始姿势</p><p class="tips-text" id="tips-setup"></p></div>
+      <div class="tips-section"><p class="tips-label">动作要点</p><ul class="tips-list" id="tips-cues"></ul></div>
+      <div class="tips-section"><p class="tips-label">常见错误</p><ul class="tips-list mistakes" id="tips-mistakes"></ul></div>
+      <div class="tips-adjust"><div><b>更简单</b><span id="tips-easier"></span></div><div><b>更难</b><span id="tips-harder"></span></div></div>
+      <a class="tips-video" id="tips-video" href="#" target="_blank" rel="noopener noreferrer">观看参考视频 ↗</a>
+      <button class="btn primary" id="tips-close" type="button">关闭</button>
+      <p class="tips-hint" id="tips-hint">关闭后回到暂停状态，由你按继续</p>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="sheet-dialog" id="safety-dialog" aria-labelledby="safety-title">
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <div><h2 id="safety-title">安全须知</h2><p class="sheet-sub">训练前花 30 秒读一遍</p></div>
+      <button class="icon-btn sheet-close" type="button" aria-label="关闭安全须知" data-close><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="safety-hero">
+      <div class="safety-hero-mark"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg></div>
+      <div><h3>训练前，先确认这些</h3><p>出现异常时，停下来比坚持更重要。</p></div>
+    </div>
+    <div class="safety-block"><span class="safety-num">01</span><div><h3>强度维持在 RPE 6–7/10</h3><p>可以说短句，但不能唱歌。宁可少做一轮，也不要硬撑。</p></div></div>
+    <div class="safety-block"><span class="safety-num warn">02</span><div><h3>出现这些信号立即停止</h3><p>胸痛、眩晕、关节刺痛、异常心悸、恶心或视线模糊。</p></div></div>
+    <div class="safety-block"><span class="safety-num">03</span><div><h3>膝踝不舒服时</h3><p>所有“跳”一律改为快速踏步；缩小动作幅度，不追求速度。</p></div></div>
+    <div class="safety-block"><span class="safety-num">04</span><div><h3>先咨询医生</h3><p>有心血管疾病、高血压、孕期、近期手术或长期不运动等情况。</p></div></div>
+    <p class="safety-disclaimer">本页为一般训练建议，不构成医疗建议。如不确定是否适合训练，请先问医生。</p>
+    <button class="btn primary safety-cta" type="button" data-close>我知道了</button>
+  </div>
+</dialog>
+
+<dialog class="sheet-dialog" id="sound-dialog" aria-labelledby="sound-title">
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <div><h2 id="sound-title">声音设置</h2><p class="sheet-sub">可随时关闭，不影响计时</p></div>
+      <button class="icon-btn sheet-close" type="button" aria-label="关闭声音设置" data-close><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    </div>
+    <label class="switch-row"><span>主声音</span><input class="switch-input" type="checkbox" data-sound="master" role="switch" checked></label>
+    <label class="switch-row"><span>提示音</span><input class="switch-input" type="checkbox" data-sound="beep" role="switch" checked></label>
+    <label class="switch-row"><span>中文语音</span><input class="switch-input" type="checkbox" data-sound="voice" role="switch" checked></label>
+    <p class="sound-dialog-note" data-voice-note>中文语音使用系统语音，部分浏览器可能不可用</p>
+    <button class="btn ghost" type="button" data-close style="width:100%;margin-top:14px">关闭</button>
+  </div>
+</dialog>
+
+<dialog class="sheet-dialog" id="exit-dialog" aria-labelledby="exit-title">
+  <div class="sheet-inner">
+    <div class="sheet-head"><div><h2 id="exit-title">退出训练？</h2><p class="sheet-sub">本次训练进度不会保存</p></div></div>
+    <p class="exit-copy">退出后需要从热身重新开始。如果只是累了，可以先暂停休息。</p>
+    <div class="dialog-actions">
+      <button class="btn ghost" id="exit-cancel" type="button">继续训练</button>
+      <button class="btn danger" id="exit-confirm" type="button">确认退出</button>
+    </div>
+  </div>
+</dialog>
+
+<div id="sr-live" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
 <script>
-  const plans = {
-    30: { title: '30 分钟 · 快速完成', sub: '忙碌的一天，也给自己留一段完整训练。', blocks: [['05 分', '动态热身', '原地踏步、肩髋绕环、踝泵、扶墙腿摆动；全身微微发热即可。'], ['15 分', '主循环 × 2', '每轮 4 个配对；每个配对 40 秒 + 40 秒 + 20 秒，轮间休息 90 秒。'], ['05 分', '力量循环 × 1', '椅子深蹲、上斜俯卧撑、臀桥、靠墙静蹲；每项 40 秒，间歇 20 秒。'], ['05 分', '放松拉伸', '小腿、大腿前后侧、髋屈肌、胸肩；每处约 30 秒。']] },
-    45: { title: '45 分钟 · 标准训练', sub: '把一轮做好，比硬撑更多轮重要。', blocks: [['07 分', '动态热身', '原地踏步、肩髋绕环、踝泵、椅子深蹲和扶墙腿摆动；逐步加快呼吸。'], ['15 分', '主循环 × 2', '每轮 4 个配对；每个配对 40 秒 + 40 秒 + 20 秒，轮间休息 90 秒。'], ['11 分', '力量循环 × 2', '椅子深蹲、上斜俯卧撑、扶椅后撤步、臀桥、靠墙静蹲；每项 40 秒，间歇 20 秒。'], ['05 分', '核心循环 × 1', '死虫式、鸟狗式、跪姿平板、坐姿收腿、侧卧抬腿；每项 40 秒。'], ['07 分', '放松拉伸', '放慢心率后，拉伸下肢、髋部、胸肩与背部。']] },
-    60: { title: '60 分钟 · 进阶耐力', sub: '增加总量，而不是把每个动作做得更猛。', blocks: [['07 分', '动态热身', '先活动关节，再逐步加快步频；不要跳过热身。'], ['23 分', '主循环 × 3', '每轮 4 个配对；每个配对 40 秒 + 40 秒 + 20 秒，轮间休息 90 秒。'], ['11 分', '力量循环 × 2', '椅子深蹲、上斜俯卧撑、扶椅后撤步、臀桥、靠墙静蹲。'], ['11 分', '核心循环 × 2', '死虫式、鸟狗式、跪姿平板、坐姿收腿、侧卧抬腿。'], ['08 分', '放松拉伸', '缓慢走动 2 分钟后，再完成小腿、腿部、髋部和胸肩拉伸。']] },
-    90: { title: '90 分钟 · 周末长版', sub: 'HIIT 仍然只占一部分；长时间来自力量、核心和低强度有氧。', blocks: [['08 分', '动态热身', '原地踏步、关节活动、椅子深蹲和提膝走。'], ['15 分', '主循环 × 2', '维持低冲击动作版本，不要为了时长硬加跳跃量。'], ['11 分', '力量循环 × 2', '椅子深蹲、上斜俯卧撑、扶椅后撤步、臀桥、靠墙静蹲。'], ['11 分', '核心循环 × 2', '死虫式、鸟狗式、跪姿平板、坐姿收腿、侧卧抬腿。'], ['37 分', '低强度有氧', '室内快走、原地踏步或低冲击舞蹈；保持“能说话、不能唱歌”的节奏。'], ['08 分', '放松拉伸', '不赶时间地放慢心率，完成全身拉伸。']] }
+(() => {
+  'use strict';
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+  const formatClock = (seconds) => {
+    const s = Math.max(0, Math.round(seconds));
+    return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
   };
-  const blocks = document.getElementById('plan-blocks');
-  function renderPlan(key) {
-    const plan = plans[key];
-    document.getElementById('session-heading').textContent = plan.title;
-    document.getElementById('session-subtitle').textContent = plan.sub;
-    document.getElementById('total-time').textContent = `TOTAL ${key} MIN`;
-    blocks.innerHTML = plan.blocks.map(([time, name, detail]) => `<div class="block"><div class="block-time">${time}</div><div><h3>${name}</h3><p>${detail}</p></div></div>`).join('');
-    document.querySelectorAll('.duration').forEach(button => {
-      const selected = button.dataset.plan === key;
-      button.classList.toggle('active', selected);
-      button.setAttribute('aria-pressed', selected);
+  const shuffle = (arr) => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  const EQUIP_LABEL = { none: '自重', chair: '椅子', wall: '墙面', band: '弹力带', dumbbell: '哑铃' };
+  const LIMIT_LABEL = { knee: '膝部', back: '下背', shoulder: '肩部' };
+  const CATEGORY_LABEL = { cardio: '心肺', strength: '力量', core: '核心' };
+  const MODULE_TITLE = { hiit: '主循环', strength: '力量循环', core: '核心循环' };
+
+  const EXERCISES = [
+    { id: 'march', name: '原地快速踏步', category: 'cardio', equip: ['none'], contraindications: [], impact: 'low', difficulty: 1, pose: 'march', bodyParts: ['全身'],
+      cues: ['前脚掌轻点地，落地安静。', '手臂主动摆动，带动步频。', '膝盖微屈，不要锁死。'], setup: '双脚与髋同宽站立，重心落在前脚掌。', mistakes: ['全程脚尖砸地，膝盖跟着内扣。', '耸肩、憋气，越做越僵。'], easier: '放慢步频，改为温和踏步。', harder: '加快摆臂，抬起膝盖到髋部高度。', videoQuery: 'low impact marching in place proper form' },
+    { id: 'low-jacks', name: '无跳跃开合', category: 'cardio', equip: ['none'], contraindications: ['shoulder'], impact: 'low', difficulty: 1, pose: 'jacks', bodyParts: ['全身'],
+      cues: ['左右脚轮流点地，不跳起。', '双臂上举时肋骨收住。', '肩不适时手臂只抬到胸口。'], setup: '双脚并拢站立，双臂自然下垂。', mistakes: ['为了追求幅度而塌腰。', '落地时膝盖内扣。'], easier: '手臂只抬到肩膀高度。', harder: '加快点地节奏，手臂举过头顶。', videoQuery: 'low impact no jump jumping jacks proper form' },
+    { id: 'step-touch', name: '左右点地', category: 'cardio', equip: ['none'], contraindications: [], impact: 'low', difficulty: 1, pose: 'jacks', bodyParts: ['下肢'],
+      cues: ['重心平滑左右移动。', '点地脚只承担少量重量。', '髋部带动，不要扭腰。'], setup: '双脚并拢，向侧方迈出一步再收回。', mistakes: ['步子过大导致膝盖内扣。', '身体上下起伏太大。'], easier: '缩小步幅，慢慢点地。', harder: '加快节奏，加入手臂摆动。', videoQuery: 'step touch exercise proper form' },
+    { id: 'knee-drive', name: '站姿提膝', category: 'cardio', equip: ['none'], contraindications: [], impact: 'low', difficulty: 2, pose: 'march', bodyParts: ['下肢', '核心'],
+      cues: ['提膝到髋部高度。', '躯干直立，不后仰。', '落地轻，前脚掌先着地。'], setup: '站立，双手自然摆动，交替提膝。', mistakes: ['弯腰驼背。', '落地太重。'], easier: '降低提膝高度，扶墙完成。', harder: '加快节奏，提膝时对侧手肘触碰膝盖。', videoQuery: 'standing knee drive exercise proper form' },
+    { id: 'wall-side-leg', name: '扶墙侧抬腿', category: 'cardio', equip: ['wall'], contraindications: [], impact: 'low', difficulty: 1, pose: 'march', bodyParts: ['髋部'],
+      cues: ['手轻扶墙，身体保持直立。', '骨盆不要歪，腿向侧抬起。', '慢慢放下，不甩腿。'], setup: '侧对墙站立，一手扶墙，另一腿向侧抬起。', mistakes: ['身体向支撑腿倾斜。', '用惯性甩腿。'], easier: '减小抬腿幅度。', harder: '在最高点停一秒再放下。', videoQuery: 'standing side leg raise proper form' },
+    { id: 'wall-back-kick', name: '扶墙后踢腿', category: 'cardio', equip: ['wall'], contraindications: ['back'], impact: 'low', difficulty: 1, pose: 'march', bodyParts: ['臀部'],
+      cues: ['脚跟向臀部靠近。', '腰部不要反弓。', '动作小而稳，不甩腿。'], setup: '面对墙站立，双手扶墙，交替后踢腿。', mistakes: ['腰部过度反弓。', '踢腿过快失去控制。'], easier: '减小后踢幅度。', harder: '在最高点停一秒，收紧臀部。', videoQuery: 'standing glute kickback proper form' },
+    { id: 'chair-squat', name: '椅子深蹲', category: 'strength', equip: ['chair'], contraindications: ['knee'], impact: 'low', difficulty: 1, pose: 'squat', bodyParts: ['下肢', '臀部'],
+      cues: ['臀部先向后找椅面。', '轻触椅子就站起，不要坐实。', '膝盖对准脚尖，脚掌踩稳。'], setup: '双脚与髋同宽，站在椅子前方。', mistakes: ['膝盖向内扣。', '坐下后完全放松再起身。'], easier: '减小下蹲深度，只做半程。', harder: '起身时停一秒，或双手抱胸。', videoQuery: 'chair squat proper form beginner' },
+    { id: 'wall-pushup', name: '墙面俯卧撑', category: 'strength', equip: ['wall', 'chair'], contraindications: ['shoulder'], impact: 'low', difficulty: 1, pose: 'pushup', bodyParts: ['上肢', '核心'],
+      cues: ['身体从头到脚成一条直线。', '肘部向后约 45 度。', '不要塌腰或耸肩。'], setup: '双手撑墙或桌沿，身体成直线。', mistakes: ['塌腰，臀部下沉。', '肘部完全向外打开。'], easier: '双手撑得更高，靠近墙面。', harder: '降低支撑面，改为桌沿或沙发扶手。', videoQuery: 'incline push up proper form beginner' },
+    { id: 'glute-bridge', name: '臀桥', category: 'strength', equip: ['none'], contraindications: [], impact: 'low', difficulty: 1, pose: 'bridge', bodyParts: ['臀部', '核心'],
+      cues: ['脚跟踩地，肩髋膝成直线。', '用臀部发力，不要用腰顶起。', '顶点停一秒再落下。'], setup: '仰卧屈膝，双脚踩地，双臂放在身体两侧。', mistakes: ['腰部过度反弓。', '膝盖向内扣。'], easier: '减小抬臀高度。', harder: '在顶点停两秒，或单腿完成。', videoQuery: 'glute bridge proper form beginner' },
+    { id: 'calf-raise', name: '站姿提踵', category: 'strength', equip: ['none'], contraindications: [], impact: 'low', difficulty: 1, pose: 'march', bodyParts: ['小腿'],
+      cues: ['慢慢踮起脚跟。', '顶点停一秒。', '身体不要晃，可扶墙保持平衡。'], setup: '站立，双脚与髋同宽，可扶墙。', mistakes: ['用惯性弹起。', '脚踝向外翻。'], easier: '扶墙完成，减小幅度。', harder: '在顶点停两秒，或单腿完成。', videoQuery: 'standing calf raise proper form' },
+    { id: 'wall-sit', name: '靠墙静蹲', category: 'strength', equip: ['wall'], contraindications: ['knee'], impact: 'low', difficulty: 2, pose: 'squat', bodyParts: ['下肢'],
+      cues: ['背贴墙，膝盖不超过脚尖。', '大腿接近平行地面即可。', '均匀呼吸，不憋气。'], setup: '背靠墙站立，双脚向前一步，慢慢下蹲。', mistakes: ['膝盖超过脚尖太多。', '憋气导致头晕。'], easier: '下蹲浅一点，时间缩短。', harder: '延长保持时间，或抬起一只脚。', videoQuery: 'wall sit proper form' },
+    { id: 'chair-reverse-lunge', name: '扶椅后撤步', category: 'strength', equip: ['chair'], contraindications: ['knee'], impact: 'low', difficulty: 2, pose: 'squat', bodyParts: ['下肢', '臀部'],
+      cues: ['手扶椅背，前脚掌踩稳。', '后撤一步，前腿发力起身。', '膝盖对准脚尖。'], setup: '站在椅子前方，双手扶椅背。', mistakes: ['前膝内扣。', '身体前倾过多。'], easier: '减小后撤步幅。', harder: '不扶椅背完成。', videoQuery: 'chair supported reverse lunge proper form' },
+    { id: 'band-row', name: '弹力带划船', category: 'strength', equip: ['band'], contraindications: ['shoulder'], impact: 'low', difficulty: 2, pose: 'march', bodyParts: ['背部', '上肢'],
+      cues: ['弹力带固定牢靠。', '肘贴身体向后拉。', '肩胛后收，不耸肩。'], setup: '坐姿或站姿，将弹力带固定在身前。', mistakes: ['耸肩借力。', '身体后仰拉动。'], easier: '减小弹力带张力。', harder: '增加张力，顶点停一秒。', videoQuery: 'resistance band row proper form' },
+    { id: 'db-rdl', name: '哑铃硬拉', category: 'strength', equip: ['dumbbell'], contraindications: ['back'], impact: 'low', difficulty: 3, pose: 'hinge', bodyParts: ['臀部', '腿后侧'],
+      cues: ['哑铃贴近身体。', '髋部向后推，背部保持平直。', '膝盖微屈，不锁死。'], setup: '双脚与髋同宽，双手持哑铃置于大腿前。', mistakes: ['弓背。', '把动作做成深蹲。'], easier: '减小下放幅度，徒手完成。', harder: '增加重量，顶点收紧臀部。', videoQuery: 'dumbbell romanian deadlift proper form' },
+    { id: 'dead-bug', name: '死虫式', category: 'core', equip: ['none'], contraindications: [], impact: 'low', difficulty: 1, pose: 'deadbug', bodyParts: ['核心'],
+      cues: ['腰部始终贴地。', '对侧手脚缓慢伸出。', '腰离地就缩小幅度。'], setup: '仰卧，双臂向上，屈膝 90 度。', mistakes: ['腰部拱起离地。', '动作过快。'], easier: '只动手或只动腿。', harder: '手脚同时伸得更远。', videoQuery: 'dead bug exercise proper form beginner' },
+    { id: 'bird-dog', name: '鸟狗式', category: 'core', equip: ['none'], contraindications: ['knee', 'shoulder'], impact: 'low', difficulty: 1, pose: 'birddog', bodyParts: ['核心', '背部'],
+      cues: ['手腕在肩下，膝盖在髋下。', '先稳住骨盆，再伸出对侧手脚。', '动作慢，不甩腿。'], setup: '四点跪姿，双手在肩下，双膝在髋下。', mistakes: ['骨盆左右转动。', '抬头过度。'], easier: '只伸腿或只伸手。', harder: '在伸展位停两秒。', videoQuery: 'bird dog exercise proper form beginner' },
+    { id: 'kneeling-plank', name: '跪姿平板支撑', category: 'core', equip: ['none'], contraindications: ['knee', 'shoulder', 'back'], impact: 'low', difficulty: 2, pose: 'plank', bodyParts: ['核心'],
+      cues: ['膝髋肩成一条线。', '收紧腹臀，保持呼吸。', '不要塌腰。'], setup: '跪姿，前臂撑地，双膝着地。', mistakes: ['塌腰或撅臀。', '憋气。'], easier: '缩短保持时间，或双手撑高。', harder: '延长保持时间，或抬起双脚。', videoQuery: 'kneeling plank proper form' },
+    { id: 'seated-knee-tuck', name: '坐姿收腿', category: 'core', equip: ['chair'], contraindications: [], impact: 'low', difficulty: 1, pose: 'seated', bodyParts: ['核心', '髋部'],
+      cues: ['坐椅子前缘，腹部发力收膝。', '双脚轻放回。', '背部保持直立。'], setup: '坐在椅子前缘，双手扶椅面。', mistakes: ['用惯性甩腿。', '背部塌陷。'], easier: '单腿交替完成。', harder: '双腿同时收起，停顿一秒。', videoQuery: 'seated knee tuck exercise proper form' },
+    { id: 'side-leg-raise', name: '侧卧抬腿', category: 'core', equip: ['none'], contraindications: ['shoulder'], impact: 'low', difficulty: 1, pose: 'deadbug', bodyParts: ['髋部', '核心'],
+      cues: ['下方手臂垫在头下。', '骨盆不要后倒。', '放下要控制。'], setup: '侧卧，下方手臂垫头，双腿伸直。', mistakes: ['身体前后晃动。', '抬腿过高导致骨盆翻转。'], easier: '减小抬腿幅度。', harder: '在顶点停一秒，或屈膝完成。', videoQuery: 'side lying leg raise proper form' },
+    { id: 'supine-march', name: '仰卧交替点地', category: 'core', equip: ['none'], contraindications: [], impact: 'low', difficulty: 1, pose: 'deadbug', bodyParts: ['核心'],
+      cues: ['仰卧屈膝，腰部贴地。', '脚尖交替点地。', '保持呼吸，不要憋气。'], setup: '仰卧，双膝屈曲，双脚踩地。', mistakes: ['腰部离地。', '动作过快。'], easier: '减小点地幅度。', harder: '双腿交替伸直。', videoQuery: 'supine march exercise proper form' }
+  ];
+  const EX_BY_ID = Object.fromEntries(EXERCISES.map((ex) => [ex.id, ex]));
+
+  const POSE_SVG = {
+    march: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M22 121H158"/><circle class="figure" cx="89" cy="27" r="12"/><path class="figure" d="M89 39V76M89 50L61 65M89 50L118 64M89 76L64 106M89 76L117 90L133 75"/><path class="arrow" d="M143 89V57M137 63L143 57L149 63"/><circle class="joint" cx="133" cy="75" r="4"/></svg>',
+    jacks: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M22 121H158"/><circle class="figure" cx="90" cy="25" r="12"/><path class="figure" d="M90 37V76M82 43L61 21M98 43L119 21M90 76L59 109M90 76L121 109"/><path class="arrow" d="M53 112H31M37 106L31 112L37 118M127 112H149M143 106L149 112L143 118"/></svg>',
+    squat: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M22 121H158"/><path class="figure" d="M112 75H149V113M136 75V113M69 31V60L86 74L110 84M69 45L45 64M69 60L47 83M86 74L64 108M110 84L97 112"/><circle class="figure" cx="69" cy="19" r="12"/><path class="arrow" d="M36 91V111M30 105L36 111L42 105"/></svg>',
+    pushup: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M22 121H158"/><path class="figure" d="M133 19V120M124 60L109 68L73 78L48 101M109 68L95 89M73 78L83 108"/><circle class="figure" cx="118" cy="50" r="11"/><path class="arrow" d="M105 81L115 89M108 92L115 89L112 81"/></svg>',
+    deadbug: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M18 108H162"/><circle class="figure" cx="48" cy="90" r="11"/><path class="figure" d="M59 90L93 87L119 57M76 88L77 54M93 87L130 106M101 83L143 42"/><path class="arrow" d="M145 39L156 28M147 29L156 28L155 37"/><circle class="joint" cx="143" cy="42" r="4"/></svg>',
+    birddog: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M18 116H162"/><circle class="figure" cx="66" cy="57" r="11"/><path class="figure" d="M77 61L104 73L129 45M91 69L57 84L39 67M104 73L126 105M104 73L75 108"/><path class="arrow" d="M132 42L150 29M141 28L150 29L147 38"/><circle class="joint" cx="129" cy="45" r="4"/></svg>',
+    bridge: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M18 118H162"/><circle class="figure" cx="42" cy="92" r="11"/><path class="figure" d="M53 94L92 84L126 84L130 116M92 84L92 116M92 84L70 110M53 94L32 110"/><path class="arrow" d="M108 70V52M102 58L108 52L114 58"/><circle class="joint" cx="92" cy="84" r="4"/></svg>',
+    plank: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M18 118H162"/><circle class="figure" cx="42" cy="70" r="10"/><path class="figure" d="M52 76L110 86L132 112L156 112M110 86L96 112M52 76L52 112M52 112L74 112"/><path class="arrow" d="M70 96H90M84 90L90 96L84 102"/></svg>',
+    seated: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M22 121H158"/><path class="figure" d="M112 75H149V113M136 75V113"/><circle class="figure" cx="60" cy="40" r="11"/><path class="figure" d="M60 52V86L95 86L118 66M60 68L42 82M95 86L118 108"/><path class="arrow" d="M84 100L104 100M98 94L104 100L98 106"/></svg>',
+    hinge: '<svg viewBox="0 0 180 142" xmlns="http://www.w3.org/2000/svg"><path class="ground" d="M22 121H158"/><circle class="figure" cx="80" cy="30" r="11"/><path class="figure" d="M80 42L108 78M80 42L62 70M108 78L108 112M108 112L96 128M108 112L120 128M62 70L62 96"/><path class="figure" d="M52 96H72M52 90V102M72 90V102"/><path class="arrow" d="M126 88H144M138 82L144 88L138 94"/></svg>'
+  };
+
+  const UNIVERSAL_IDS = {
+    hiit: ['march', 'step-touch', 'knee-drive'],
+    strength: ['glute-bridge', 'calf-raise'],
+    core: ['dead-bug', 'supine-march']
+  };
+  const DURATIONS = {
+    30: { label: '快速完成', warm: 4, timed: 1320, aerobic: 0, cool: 4 },
+    45: { label: '标准训练', warm: 6, timed: 2040, aerobic: 0, cool: 5 },
+    60: { label: '进阶耐力', warm: 7, timed: 2820, aerobic: 0, cool: 6 },
+    90: { label: '周末长版', warm: 8, timed: 2520, aerobic: 32, cool: 8 }
+  };
+  const LEVELS = {
+    beginner: { label: '新手', work: 30, rest: 30, roundRest: { hiit: 90, strength: 60, core: 60 }, moves: { hiit: 4, strength: 4, core: 4 }, maxDifficulty: 2 },
+    advanced: { label: '进阶', work: 40, rest: 20, roundRest: { hiit: 60, strength: 45, core: 45 }, moves: { hiit: 5, strength: 5, core: 5 }, maxDifficulty: 3 }
+  };
+  const GOALS = {
+    'fat-burn': { label: '燃脂', weights: { hiit: 0.5, strength: 0.25, core: 0.25 }, tune: { hiit: { restDelta: -5 } } },
+    strength: { label: '力量', weights: { hiit: 0.25, strength: 0.5, core: 0.25 }, tune: { strength: { workDelta: 5, restDelta: 5 } } },
+    core: { label: '核心', weights: { hiit: 0.25, strength: 0.25, core: 0.5 }, tune: { core: { workDelta: 5, restDelta: -5 } } },
+    balanced: { label: '均衡', weights: { hiit: 0.4, strength: 0.3, core: 0.3 }, tune: {} }
+  };
+
+  const state = {
+    settings: null,
+    previewSession: null,
+    previewKey: '',
+    session: null,
+    library: { category: 'all', suitable: false, lowImpact: false },
+    tipsFromPlayer: false,
+    sound: { master: true, beep: true, voice: true },
+    player: {
+      open: false, status: 'idle', index: 0, step: null, timerId: null,
+      stepEndsAt: 0, stepDurationMs: 0, remainingMs: 0, pausedFrom: null,
+      lastDisplaySecond: null, lastCueSecond: null, wakeLock: null,
+      hiddenAt: 0, movesCompleted: 0, roundsCompleted: 0
+    },
+    audioCtx: null,
+    zhVoice: null
+  };
+
+  function equipmentOk(ex, selected) {
+    if (ex.equip.includes('none')) return true;
+    return ex.equip.some((e) => selected.includes(e));
+  }
+
+  function warmupBullets(settings) {
+    return [
+      '原地踏步 · 2 分钟',
+      settings.limitations.includes('shoulder') ? '手臂前后摆动 · 10 次' : '肩绕环 · 10 次',
+      '髋绕环 · 10 次',
+      '踝泵 · 20 次',
+      settings.limitations.includes('knee') ? '扶椅提膝 · 10 次' : settings.equipment.includes('chair') ? '椅子深蹲 · 5 次' : '原地半蹲 · 10 次'
+    ];
+  }
+  function cooldownBullets(settings) {
+    return [
+      '慢走 · 2 分钟',
+      '小腿拉伸 · 30 秒',
+      '大腿前侧与后侧 · 各 30 秒',
+      '髋屈肌拉伸 · 30 秒',
+      settings.limitations.includes('shoulder') ? '背部放松 · 30 秒' : '胸肩拉伸 · 30 秒'
+    ];
+  }
+  function aerobicBullets() {
+    return ['室内快走或原地踏步', '保持“能说话、不能唱歌”的节奏', '每 10 分钟喝一小口水', '感到膝踝不适时改为慢走'];
+  }
+
+  function buildRoundOrders(pool, rounds, moves, goal) {
+    const orders = [];
+    let prevLastId = null;
+    for (let r = 0; r < rounds; r++) {
+      const order = shuffle(pool).slice(0, moves);
+      if (prevLastId && order.length > 1 && order[0].id === prevLastId) {
+        [order[0], order[1]] = [order[1], order[0]];
+      }
+      orders.push(order);
+      prevLastId = order[order.length - 1].id;
+    }
+    if (goal === 'strength') {
+      const equipped = pool.filter((ex) => ex.equip.some((e) => e !== 'none'));
+      for (const order of orders) {
+        if (!order.some((ex) => ex.equip.some((e) => e !== 'none'))) {
+          const cand = equipped.find((ex) => !order.includes(ex));
+          if (cand) order[order.length - 1] = cand;
+        }
+      }
+    }
+    return orders;
+  }
+
+  function buildSession(settings) {
+    const level = LEVELS[settings.level];
+    const goal = GOALS[settings.goal];
+    const duration = DURATIONS[settings.duration];
+    const notes = [];
+
+    const base = EXERCISES.filter((ex) =>
+      ex.difficulty <= level.maxDifficulty &&
+      equipmentOk(ex, settings.equipment) &&
+      !ex.contraindications.some((c) => settings.limitations.includes(c))
+    );
+    const pools = {
+      hiit: base.filter((e) => e.category === 'cardio'),
+      strength: base.filter((e) => e.category === 'strength'),
+      core: base.filter((e) => e.category === 'core')
+    };
+    for (const key of ['hiit', 'strength', 'core']) {
+      if (!pools[key].length) {
+        pools[key] = EXERCISES.filter((e) => UNIVERSAL_IDS[key].includes(e.id) && equipmentOk(e, settings.equipment));
+        if (pools[key].length) notes.push(`${MODULE_TITLE[key]}可用动作较少，已用低风险基础动作补齐。`);
+      }
+    }
+    let activeKeys = ['hiit', 'strength', 'core'].filter((k) => pools[k].length);
+    if (!activeKeys.length) {
+      pools.hiit = [EX_BY_ID.march];
+      activeKeys = ['hiit'];
+      notes.push('当前条件没有合适的动作组合，已生成最小安全课程。');
+    }
+
+    const raw = activeKeys.map((k) => goal.weights[k]);
+    const rawSum = raw.reduce((a, b) => a + b, 0) || 1;
+    const weights = {};
+    activeKeys.forEach((k, i) => { weights[k] = raw[i] / rawSum; });
+
+    const modules = activeKeys.map((key) => {
+      const tune = goal.tune[key] || {};
+      const work = clamp(level.work + (tune.workDelta || 0), 20, 60);
+      const rest = clamp(level.rest + (tune.restDelta || 0), 15, 45);
+      const pool = pools[key];
+      const moves = Math.max(1, Math.min(level.moves[key], pool.length));
+      const roundRest = level.roundRest[key];
+      const roundSec = moves * work + Math.max(0, moves - 1) * rest + roundRest;
+      return { key, pool, moves, work, rest, roundRest, roundSec, weight: weights[key], target: duration.timed * weights[key], rounds: 1 };
+    });
+    modules.forEach((m) => { m.rounds = clamp(Math.round(m.target / m.roundSec), 1, 6); });
+
+    const totalTimed = () => modules.reduce((sum, m) => sum + m.rounds * m.roundSec, 0);
+    const lower = duration.timed * 0.9;
+    const upper = duration.timed * 1.1;
+    let guard = 0;
+    while (totalTimed() < lower && guard++ < 12) {
+      const cand = modules.filter((m) => m.rounds < 6).sort((a, b) => (b.target - b.rounds * b.roundSec) - (a.target - a.rounds * a.roundSec))[0];
+      if (!cand) break;
+      cand.rounds++;
+    }
+    guard = 0;
+    while (totalTimed() > upper && guard++ < 24) {
+      const cand = modules.filter((m) => m.rounds > 1).sort((a, b) => (b.rounds * b.roundSec - b.target) - (a.rounds * a.roundSec - a.target))[0];
+      if (!cand) break;
+      cand.rounds--;
+    }
+    modules.forEach((m) => { m.roundOrders = buildRoundOrders(m.pool, m.rounds, m.moves, settings.goal); });
+
+    const timeline = [];
+    timeline.push({
+      kind: 'phase', phase: 'warmup', selfPaced: true, title: '动态热身',
+      durationHint: `约 ${duration.warm} 分钟 · 自选节奏`,
+      timeLabel: `${duration.warm}′`,
+      bullets: warmupBullets(settings),
+      note: '不强制计时。全身微微发热、关节活动开即可继续。',
+      cta: `开始${modules[0] ? MODULE_TITLE[modules[0].key] : '训练'}`,
+      watermark: '01', pose: 'march'
+    });
+
+    modules.forEach((m, mi) => {
+      timeline.push({
+        kind: 'phase', phase: m.key, selfPaced: false, title: MODULE_TITLE[m.key],
+        durationHint: `${m.rounds} 轮 · 每轮 ${m.moves} 个动作 · ${m.work} 秒训练 / ${m.rest} 秒休息`,
+        timeLabel: `${Math.round((m.rounds * m.roundSec) / 60)}′`,
+        rounds: m.rounds, moves: m.moves, work: m.work, rest: m.rest, roundRest: m.roundRest,
+        bullets: m.roundOrders[0].map((ex) => ex.name),
+        note: `轮间休息 ${m.roundRest} 秒。准备好后开始，进入后自动计时。`,
+        cta: '开始第 1 轮',
+        watermark: String(mi + 2).padStart(2, '0'),
+        pose: m.key === 'hiit' ? 'jacks' : m.key === 'strength' ? 'squat' : 'deadbug'
+      });
+      m.roundOrders.forEach((order, r) => {
+        order.forEach((ex, idx) => {
+          timeline.push({
+            kind: 'work', phase: m.key, moduleLabel: MODULE_TITLE[m.key],
+            moduleIndex: mi + 1, moduleTotal: modules.length,
+            round: r + 1, roundTotal: m.rounds, move: idx + 1, moveTotal: order.length,
+            exerciseId: ex.id, duration: m.work
+          });
+          if (idx < order.length - 1) {
+            timeline.push({
+              kind: 'rest', phase: m.key, moduleLabel: MODULE_TITLE[m.key],
+              moduleIndex: mi + 1, moduleTotal: modules.length,
+              round: r + 1, roundTotal: m.rounds, move: idx + 1, moveTotal: order.length,
+              duration: m.rest, nextExerciseId: order[idx + 1].id
+            });
+          } else {
+            const nextOrder = m.roundOrders[r + 1];
+            timeline.push({
+              kind: 'roundRest', phase: m.key, moduleLabel: MODULE_TITLE[m.key],
+              moduleIndex: mi + 1, moduleTotal: modules.length,
+              round: r + 1, roundTotal: m.rounds, move: order.length, moveTotal: order.length,
+              duration: m.roundRest, nextRound: nextOrder ? r + 2 : null,
+              nextExerciseId: nextOrder ? nextOrder[0].id : null
+            });
+          }
+        });
+      });
+    });
+
+    if (settings.duration === 90) {
+      timeline.push({
+        kind: 'phase', phase: 'aerobic', selfPaced: true, title: '低强度有氧',
+        durationHint: `约 ${duration.aerobic} 分钟 · 自选节奏`,
+        timeLabel: `${duration.aerobic}′`,
+        bullets: aerobicBullets(),
+        note: '保持能说话、不能唱歌的节奏。完成后再进入拉伸。',
+        cta: '完成有氧，进入放松',
+        watermark: String(timeline.filter((s) => s.kind === 'phase').length + 1).padStart(2, '0'),
+        pose: 'march'
+      });
+    }
+    timeline.push({
+      kind: 'phase', phase: 'cooldown', selfPaced: true, title: '放松拉伸',
+      durationHint: `约 ${duration.cool} 分钟 · 自选节奏`,
+      timeLabel: `${duration.cool}′`,
+      bullets: cooldownBullets(settings),
+      note: '放慢心率后再拉伸。每个部位约 30 秒，不要弹震。',
+      cta: '完成训练',
+      watermark: String(timeline.filter((s) => s.kind === 'phase').length + 1).padStart(2, '0'),
+      pose: 'deadbug'
+    });
+    timeline.push({ kind: 'complete' });
+
+    const timedSteps = timeline.filter((s) => ['work', 'rest', 'roundRest'].includes(s.kind));
+    const timedTotal = timedSteps.reduce((sum, s) => sum + s.duration, 0);
+    const workSteps = timeline.filter((s) => s.kind === 'work');
+    const lowImpact = workSteps.every((s) => EX_BY_ID[s.exerciseId].impact === 'low');
+    const estimatedMinutes = Math.round(duration.warm + timedTotal / 60 + duration.aerobic + duration.cool);
+
+    if (settings.limitations.length) {
+      notes.push(`已根据${settings.limitations.map((l) => LIMIT_LABEL[l]).join('、')}限制避开相关负荷动作。`);
+    }
+    if (!settings.equipment.length) {
+      notes.push('未选择器械，力量模块以臀桥、提踵等自重动作为主。');
+    }
+    if (Math.abs(timedTotal - duration.timed) > duration.timed * 0.12) {
+      notes.push(`本课计时部分约 ${Math.round(timedTotal / 60)} 分钟，与目标时长略有出入。`);
+    }
+    if (settings.limitations.length >= 2) {
+      notes.push('当前限制较多，本课以低风险动作为主；如出现疼痛请立即停止。');
+    }
+
+    return {
+      settings,
+      timeline,
+      phases: timeline.filter((s) => s.kind === 'phase'),
+      modules,
+      timedTotal,
+      estimatedMinutes,
+      lowImpact,
+      notes,
+      title: `${settings.duration} 分钟 · ${GOALS[settings.goal].label} · ${LEVELS[settings.level].label}`
+    };
+  }
+
+  function readSettings() {
+    return {
+      duration: Number($('.duration.active')?.dataset.duration || 45),
+      level: $('input[name="level"]:checked')?.value || 'beginner',
+      goal: $('input[name="goal"]:checked')?.value || 'balanced',
+      equipment: $$('input[name="equipment"]:checked').map((i) => i.value),
+      limitations: $$('input[name="limitation"]:checked').map((i) => i.value)
+    };
+  }
+  function settingsKey(s) {
+    return JSON.stringify({
+      duration: s.duration, level: s.level, goal: s.goal,
+      equipment: [...s.equipment].sort(), limitations: [...s.limitations].sort()
     });
   }
-  document.querySelectorAll('.duration').forEach(button => button.addEventListener('click', () => renderPlan(button.dataset.plan)));
-  renderPlan('45');
 
-  let remaining = 40, running = false, interval;
-  const timerCount = document.getElementById('timer-count');
-  const timerLabel = document.getElementById('timer-label');
-  const timerName = document.getElementById('timer-name');
-  const startButton = document.getElementById('start-button');
-  function drawTimer() { timerCount.textContent = `00:${String(remaining).padStart(2, '0')}`; }
-  function resetTimer() { clearInterval(interval); running = false; remaining = 40; drawTimer(); timerLabel.textContent = '准备开始'; timerName.textContent = '选择一个动作，按开始进入 40 秒训练'; startButton.textContent = '开始 40 秒'; }
-  startButton.addEventListener('click', () => {
-    if (running) { resetTimer(); return; }
-    running = true; timerLabel.textContent = '训练进行中'; timerName.textContent = '专注呼吸与动作控制'; startButton.textContent = '停止并重置';
-    interval = setInterval(() => { remaining -= 1; drawTimer(); if (remaining <= 0) { clearInterval(interval); running = false; timerLabel.textContent = '完成这一组'; timerName.textContent = '休息 20 秒，喝一小口水后继续'; startButton.textContent = '开始下一组'; remaining = 40; } }, 1000);
+  function injectPose(el, key) {
+    if (!el) return;
+    el.classList.add('pose');
+    el.innerHTML = POSE_SVG[key] || POSE_SVG.march;
+  }
+
+  function renderPreview(session) {
+    $('#preview-title').textContent = session.title;
+    const equipText = session.settings.equipment.length ? session.settings.equipment.map((e) => EQUIP_LABEL[e]).join(' + ') : '徒手';
+    const limitsText = session.settings.limitations.length ? `避开${session.settings.limitations.map((l) => LIMIT_LABEL[l]).join('、')}` : '无限制';
+    $('#preview-meta').innerHTML = [
+      `<span class="meta-pill">计时 ${formatClock(session.timedTotal)}</span>`,
+      session.lowImpact ? '<span class="meta-pill">低冲击</span>' : '',
+      `<span class="meta-pill muted">${equipText}</span>`,
+      `<span class="meta-pill muted">${limitsText}</span>`
+    ].filter(Boolean).join('');
+    const lv = LEVELS[session.settings.level];
+    $('.hero-rule').innerHTML = `<span><b>${lv.work}秒</b> 训练</span><span><b>${lv.rest}秒</b> 恢复</span><span><b>${lv.roundRest.hiit}秒</b> 轮间</span>`;
+    $('#preview-phases').innerHTML = session.phases.map((p, i) => `
+      <div class="preview-phase">
+        <span class="num">${String(i + 1).padStart(2, '0')}</span>
+        <div><h3>${p.title}</h3><p>${p.durationHint}</p></div>
+        <span class="time">${p.timeLabel}</span>
+      </div>`).join('');
+    $('#preview-summary-line').textContent = session.phases.map((p) => {
+      if (p.phase === 'warmup') return `热身 ${p.timeLabel}`;
+      if (p.phase === 'aerobic') return `有氧 ${p.timeLabel}`;
+      if (p.phase === 'cooldown') return `拉伸 ${p.timeLabel}`;
+      return `${p.title} ${p.rounds} 轮`;
+    }).join(' · ');
+    $('#preview-notes').textContent = session.notes.join(' ') || '按当前条件已排好动作。';
+    $('#bar-time').textContent = `预计 ${session.estimatedMinutes} 分钟`;
+    const barSummary = session.phases
+      .filter((p) => !['warmup', 'cooldown'].includes(p.phase))
+      .map((p) => p.phase === 'aerobic' ? `有氧 ${p.timeLabel}` : `${p.phase === 'hiit' ? '主循环' : p.title.replace('循环', '')} ${p.rounds} 轮`)
+      .join(' · ');
+    $('#bar-summary').textContent = barSummary || '含热身与拉伸';
+  }
+
+  function refreshPreview() {
+    state.settings = readSettings();
+    state.previewSession = buildSession(state.settings);
+    state.previewKey = settingsKey(state.settings);
+    renderPreview(state.previewSession);
+  }
+
+  function renderLibrary() {
+    const settings = readSettings();
+    const filter = state.library;
+    const list = EXERCISES.filter((ex) => {
+      if (filter.category !== 'all' && ex.category !== filter.category) return false;
+      if (filter.lowImpact && ex.impact !== 'low') return false;
+      if (filter.suitable) {
+        if (!equipmentOk(ex, settings.equipment)) return false;
+        if (ex.contraindications.some((c) => settings.limitations.includes(c))) return false;
+      }
+      return true;
+    });
+    $('#library-count').textContent = `共 ${list.length} 个动作`;
+    $('#exercise-grid').innerHTML = list.map((ex) => {
+      const conflict = ex.contraindications.filter((c) => settings.limitations.includes(c));
+      const tags = [CATEGORY_LABEL[ex.category], ...ex.equip.map((e) => EQUIP_LABEL[e]), ex.impact === 'low' ? '低冲击' : '中冲击'];
+      const dots = '●'.repeat(ex.difficulty) + '○'.repeat(3 - ex.difficulty);
+      return `<button class="exercise-card" type="button" data-exercise="${ex.id}" aria-label="查看${ex.name}动作要领">
+        <span class="pose" data-pose="${ex.pose}"></span>
+        <span class="exercise-body">
+          <span class="exercise-title">${ex.name}</span>
+          <span class="exercise-tags">${tags.map((t) => `<span class="tag">${t}</span>`).join('')}${conflict.map((c) => `<span class="tag warn">避开${LIMIT_LABEL[c]}</span>`).join('')}<span class="difficulty">${dots}</span></span>
+        </span>
+      </button>`;
+    }).join('');
+    $$('#exercise-grid .pose').forEach((el) => injectPose(el, el.dataset.pose));
+  }
+
+  function openTips(exerciseId, fromPlayer = false) {
+    const ex = EX_BY_ID[exerciseId];
+    if (!ex) return;
+    state.tipsFromPlayer = fromPlayer;
+    if (fromPlayer && state.player.open && !['paused', 'complete'].includes(state.player.status)) {
+      pausePlayer('tips');
+    }
+    $('#tips-name').textContent = ex.name;
+    $('#tips-status').textContent = fromPlayer ? '计时已暂停' : '动作库';
+    injectPose($('#tips-pose'), ex.pose);
+    const conflict = ex.contraindications.filter((c) => readSettings().limitations.includes(c));
+    const tags = [CATEGORY_LABEL[ex.category], ...ex.equip.map((e) => EQUIP_LABEL[e]), ex.impact === 'low' ? '低冲击' : '中冲击'];
+    $('#tips-tags').innerHTML = tags.map((t) => `<span class="tag">${t}</span>`).join('');
+    $('#tips-warning').hidden = !conflict.length;
+    if (conflict.length) $('#tips-warning').textContent = `这个动作与你的${conflict.map((c) => LIMIT_LABEL[c]).join('、')}限制冲突，今天不建议做。`;
+    $('#tips-setup').textContent = ex.setup;
+    $('#tips-cues').innerHTML = ex.cues.map((t) => `<li>${t}</li>`).join('');
+    $('#tips-mistakes').innerHTML = ex.mistakes.map((t) => `<li>${t}</li>`).join('');
+    $('#tips-easier').textContent = ex.easier;
+    $('#tips-harder').textContent = ex.harder;
+    $('#tips-video').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.videoQuery)}`;
+    $('#tips-hint').textContent = fromPlayer ? '关闭后回到暂停状态，由你按继续' : '关闭后返回动作库';
+    $('#tips-close').textContent = '关闭';
+    $('#tips-dialog').showModal();
+    syncScrollLock();
+    $('#tips-close').focus();
+  }
+
+  /* ---------- audio ---------- */
+  function unlockAudio() {
+    if (!state.audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) state.audioCtx = new Ctx();
+    }
+    if (state.audioCtx && state.audioCtx.state === 'suspended') state.audioCtx.resume();
+    if ('speechSynthesis' in window) speechSynthesis.getVoices();
+  }
+  const soundOn = (sub) => state.sound.master && state.sound[sub];
+  function beep(freq = 660, duration = 0.08, gain = 0.05, delay = 0) {
+    if (!soundOn('beep') || !state.audioCtx) return;
+    try {
+      const ctx = state.audioCtx;
+      const t0 = ctx.currentTime + delay;
+      const osc = ctx.createOscillator();
+      const amp = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, t0);
+      amp.gain.setValueAtTime(0.0001, t0);
+      amp.gain.exponentialRampToValueAtTime(gain, t0 + 0.01);
+      amp.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+      osc.connect(amp).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + duration + 0.03);
+    } catch {}
+  }
+  function loadVoices() {
+    if (!('speechSynthesis' in window)) { state.zhVoice = null; syncSoundInputs(); return; }
+    const voices = speechSynthesis.getVoices();
+    state.zhVoice = voices.find((v) => v.lang === 'zh-CN' && v.localService)
+      || voices.find((v) => v.lang === 'zh-CN')
+      || voices.find((v) => v.lang.startsWith('zh'))
+      || null;
+    syncSoundInputs();
+  }
+  function speak(text, interrupt = true) {
+    if (!soundOn('voice') || !state.zhVoice || !('speechSynthesis' in window)) return;
+    try {
+      if (interrupt) speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-CN';
+      u.rate = 1.02;
+      u.pitch = 1;
+      u.volume = 1;
+      u.voice = state.zhVoice;
+      speechSynthesis.speak(u);
+    } catch {}
+  }
+  function stopSpeech() {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+  }
+  function announce(text) {
+    const el = $('#sr-live');
+    if (!el) return;
+    el.textContent = '';
+    window.setTimeout(() => { el.textContent = text; }, 30);
+  }
+  function syncSoundInputs() {
+    $$('[data-sound]').forEach((input) => {
+      const key = input.dataset.sound;
+      input.checked = key === 'voice' && !state.zhVoice ? false : !!state.sound[key];
+      if (key === 'master') input.disabled = false;
+      else if (!state.sound.master) input.disabled = true;
+      else if (key === 'voice' && !state.zhVoice) input.disabled = true;
+      else input.disabled = false;
+    });
+    $$('[data-voice-note]').forEach((el) => {
+      el.textContent = state.zhVoice
+        ? '中文语音使用系统语音，部分浏览器可能不可用'
+        : '当前浏览器没有中文语音，将只使用提示音';
+    });
+  }
+  function setSound(key, value) {
+    state.sound[key] = value;
+    if (key === 'master' && !value) stopSpeech();
+    if (value) unlockAudio();
+    syncSoundInputs();
+    if (key === 'master' && value) beep(660, 0.06, 0.04);
+    if (key === 'beep' && value) beep(660, 0.06, 0.04);
+    if (key === 'voice' && value) speak('语音已开启。');
+  }
+
+  /* ---------- progress & timer ---------- */
+  const isTimedStep = (step) => !!step && ['work', 'rest', 'roundRest'].includes(step.kind);
+  function computeTimedTotal() {
+    if (!state.session) return 0;
+    return state.session.timeline.reduce((sum, s) => sum + (isTimedStep(s) ? s.duration + (s.extraSeconds || 0) : 0), 0);
+  }
+  function computeTimedElapsed() {
+    if (!state.session) return 0;
+    const p = state.player;
+    let total = 0;
+    for (let i = 0; i < p.index; i++) {
+      const s = state.session.timeline[i];
+      if (isTimedStep(s)) total += s.duration + (s.extraSeconds || 0);
+    }
+    if (isTimedStep(p.step) && ['work', 'rest', 'roundRest', 'paused'].includes(p.status)) {
+      const dur = (p.step.duration + (p.step.extraSeconds || 0)) * 1000;
+      const elapsed = p.status === 'paused'
+        ? Math.max(0, Math.min(dur, dur - p.remainingMs))
+        : Math.max(0, Math.min(dur, dur - Math.max(0, p.stepEndsAt - performance.now())));
+      total += elapsed / 1000;
+    }
+    return total;
+  }
+  function updateProgress() {
+    const total = computeTimedTotal();
+    const elapsed = computeTimedElapsed();
+    const ratio = total ? clamp(elapsed / total, 0, 1) : 0;
+    $('#session-progress-fill').style.width = `${ratio * 100}%`;
+    $('#session-progress').setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+    $('#bottom-progress-fill').style.width = `${ratio * 100}%`;
+    $('#elapsed').textContent = `已用 ${formatClock(elapsed)}`;
+    $('#remaining').textContent = `剩余 ${formatClock(Math.max(0, total - elapsed))}`;
+  }
+  function setRing(ratio) {
+    const C = 2 * Math.PI * 104;
+    const len = Math.max(0.001, C * clamp(ratio, 0, 1));
+    $('#ring-progress').setAttribute('stroke-dasharray', `${len} ${C}`);
+  }
+  function clearTimer() {
+    if (state.player.timerId) {
+      clearInterval(state.player.timerId);
+      state.player.timerId = null;
+    }
+  }
+  function tick() {
+    const p = state.player;
+    if (!['work', 'rest', 'roundRest'].includes(p.status)) return;
+    const remain = p.stepEndsAt - performance.now();
+    if (remain <= 0) { advanceStep('timer'); return; }
+    const display = Math.ceil(remain / 1000);
+    if (display !== p.lastDisplaySecond) {
+      p.lastDisplaySecond = display;
+      $('#countdown').textContent = formatClock(display);
+      if (display <= 3 && display >= 1 && display !== p.lastCueSecond) {
+        p.lastCueSecond = display;
+        beep(660, 0.06, 0.05);
+      }
+      updateProgress();
+    }
+    setRing(1 - remain / p.stepDurationMs);
+  }
+  function startTimer() {
+    clearTimer();
+    state.player.timerId = setInterval(tick, 200);
+    tick();
+  }
+  function advanceStep(reason) {
+    const p = state.player;
+    if (!p.step || !['work', 'rest', 'roundRest', 'phaseIntro', 'paused'].includes(p.status)) return;
+    if (p.status === 'paused') {
+      p.status = p.pausedFrom || 'work';
+      p.pausedFrom = null;
+      hidePauseSheet();
+    }
+    clearTimer();
+    if (reason === 'timer') {
+      if (p.step.kind === 'work') p.movesCompleted++;
+      if (p.step.kind === 'roundRest') p.roundsCompleted++;
+    }
+    p.index++;
+    if (!state.session || p.index >= state.session.timeline.length) { finishSession(); return; }
+    enterStep(p.index);
+  }
+  function getNextInfo(index) {
+    const timeline = state.session.timeline;
+    const step = timeline[index];
+    if (!step) return null;
+    let nextId = step.nextExerciseId;
+    if (!nextId && step.kind === 'work') {
+      const follow = timeline[index + 1];
+      if (follow && (follow.kind === 'rest' || follow.kind === 'roundRest')) nextId = follow.nextExerciseId;
+    }
+    if (nextId) {
+      const ex = EX_BY_ID[nextId];
+      const nextWork = timeline.slice(index + 1).find((s) => s.kind === 'work' && s.exerciseId === nextId);
+      return { name: ex.name, pose: ex.pose, duration: nextWork ? nextWork.duration : null };
+    }
+    const nextPhase = timeline.slice(index + 1).find((s) => s.kind === 'phase');
+    if (nextPhase) return { name: nextPhase.title, pose: nextPhase.pose, duration: null, isPhase: true };
+    const nextWork = timeline.slice(index + 1).find((s) => s.kind === 'work');
+    if (nextWork) {
+      const ex = EX_BY_ID[nextWork.exerciseId];
+      return { name: ex.name, pose: ex.pose, duration: nextWork.duration };
+    }
+    return null;
+  }
+  function renderDots(step) {
+    const dots = $('#round-dots');
+    dots.innerHTML = '';
+    const total = step.moveTotal || 0;
+    for (let i = 1; i <= total; i++) {
+      const dot = document.createElement('span');
+      if (step.kind === 'roundRest' || i < step.move) dot.className = 'done';
+      else if (i === step.move) dot.className = 'current';
+      dots.appendChild(dot);
+    }
+    $('#round-label').textContent = step.kind === 'roundRest'
+      ? `第 ${step.round}/${step.roundTotal} 轮完成`
+      : `动作 ${step.move}/${step.moveTotal} · 本轮还剩 ${Math.max(0, step.moveTotal - step.move)} 个`;
+  }
+  function renderTimed(step) {
+    const p = state.player;
+    const isWork = step.kind === 'work';
+    const ex = isWork ? EX_BY_ID[step.exerciseId] : null;
+    $('#player-timer').hidden = false;
+    $('#player-phase').hidden = true;
+    $('#player-complete').hidden = true;
+    $('#player-bottom').hidden = false;
+    $('#player').dataset.state = step.kind;
+    $('#state-pill').textContent = step.kind === 'work' ? '训练中' : step.kind === 'roundRest' ? '轮间休息' : '休息';
+    $('#countdown').textContent = formatClock(step.duration);
+    $('#exercise-name').textContent = isWork ? ex.name : step.kind === 'roundRest' ? '轮间休息' : '休息';
+    const cues = isWork ? ex.cues.slice(0, 2) : step.kind === 'roundRest'
+      ? [`第 ${step.round}/${step.roundTotal} 轮完成。`, '下一轮开始前保持站立，别躺下。']
+      : ['喝一小口水，调整呼吸。', '不用急着看下一个动作。'];
+    $('#exercise-cues').innerHTML = cues.map((t) => `<div>${t}</div>`).join('');
+    $('#exercise-badges').innerHTML = isWork
+      ? [
+          `<span class="badge">${ex.equip.map((e) => EQUIP_LABEL[e]).join(' / ')}</span>`,
+          `<span class="badge">${ex.impact === 'low' ? '低冲击' : '中冲击'}</span>`,
+          `<span class="badge muted">难度 ${'●'.repeat(ex.difficulty)}${'○'.repeat(3 - ex.difficulty)}</span>`
+        ].join('')
+      : `<span class="badge muted">${step.kind === 'roundRest' ? `第 ${step.round}/${step.roundTotal} 轮` : `动作 ${step.move}/${step.moveTotal}`}</span>`;
+    const next = getNextInfo(state.player.index);
+    if (next) {
+      $('#next-name').textContent = next.name;
+      $('#next-time').textContent = next.duration ? `${next.duration} 秒` : '';
+      injectPose($('#next-pose'), next.pose);
+      $('.next-card').hidden = false;
+    } else {
+      $('.next-card').hidden = true;
+    }
+    renderDots(step);
+    $('#player-phase-label').textContent = `${step.moduleLabel} · 第 ${step.round}/${step.roundTotal} 轮`;
+    p.stepDurationMs = step.duration * 1000;
+    p.stepEndsAt = performance.now() + p.stepDurationMs;
+    p.remainingMs = p.stepDurationMs;
+    p.lastDisplaySecond = null;
+    p.lastCueSecond = null;
+    setRing(0);
+    updateProgress();
+    setPauseIcon(false);
+    $('#pause-sub').textContent = `${step.moduleLabel} · 第 ${step.round}/${step.roundTotal} 轮 · 动作 ${step.move}/${step.moveTotal}`;
+    startTimer();
+    if (!document.activeElement || document.activeElement === document.body || document.activeElement.id === 'phase-cta') {
+      $('#pause-btn').focus({ preventScroll: true });
+    }
+  }
+  function renderPhase(step) {
+    $('#player-timer').hidden = true;
+    $('#player-complete').hidden = true;
+    $('#player-phase').hidden = false;
+    $('#player-bottom').hidden = true;
+    $('#player').dataset.state = step.selfPaced ? 'phase' : 'intro';
+    $('#player-phase-label').textContent = step.title;
+    $('#phase-eyebrow').textContent = step.selfPaced ? 'SELF-PACED / 自选节奏' : 'NEXT UP / 准备开始';
+    $('#phase-title').textContent = step.title;
+    $('#phase-hint').textContent = step.durationHint;
+    $('#phase-watermark').textContent = step.watermark;
+    $('#phase-list').innerHTML = (step.bullets || []).map((t) => `<li>${t}</li>`).join('');
+    $('#phase-note').textContent = step.note || '';
+    injectPose($('#phase-pose'), step.pose);
+    $('#phase-cta').textContent = step.cta || '继续';
+    $('#phase-hint-bottom').textContent = step.selfPaced ? '按自己的节奏完成，不强制计时' : '准备好后开始，进入后自动计时';
+    $('#phase-cta').focus({ preventScroll: true });
+    updateProgress();
+  }
+  function renderComplete() {
+    $('#player-timer').hidden = true;
+    $('#player-phase').hidden = true;
+    $('#player-complete').hidden = false;
+    $('#player-bottom').hidden = true;
+    $('#player').dataset.state = 'complete';
+    $('#player-phase-label').textContent = '完成';
+    $('#complete-time').textContent = formatClock(computeTimedElapsed());
+    $('#complete-rounds').textContent = String(state.player.roundsCompleted);
+    $('#complete-moves').textContent = String(state.player.movesCompleted);
+    updateProgress();
+    $('#complete-again').focus({ preventScroll: true });
+  }
+  function enterStep(index) {
+    const p = state.player;
+    const step = state.session.timeline[index];
+    p.index = index;
+    p.step = step;
+    clearTimer();
+    stopSpeech();
+    hidePauseSheet();
+    if (!step) { finishSession(); return; }
+    if (step.kind === 'phase') {
+      p.status = 'phaseIntro';
+      renderPhase(step);
+      const text = step.selfPaced ? `现在是${step.title}。` : `${step.title}，${step.durationHint}。`;
+      announce(text);
+      speak(text);
+      beep(660, 0.08, 0.04);
+    } else if (['work', 'rest', 'roundRest'].includes(step.kind)) {
+      p.status = step.kind;
+      renderTimed(step);
+      const next = getNextInfo(index);
+      const nextText = next ? `下一个，${next.name}。` : '';
+      let text;
+      if (step.kind === 'work') {
+        const ex = EX_BY_ID[step.exerciseId];
+        text = `开始，${ex.name}，${step.duration}秒。${nextText}`;
+        beep(880, 0.07, 0.05);
+        beep(880, 0.07, 0.05, 0.12);
+      } else if (step.kind === 'rest') {
+        text = `休息，${step.duration}秒。${nextText}`;
+        beep(440, 0.12, 0.05);
+      } else {
+        text = `第${step.round}轮完成。休息${step.duration}秒。${step.nextRound ? `准备第${step.nextRound}轮。` : '准备下一阶段。'}`;
+        beep(990, 0.16, 0.06);
+      }
+      announce(text);
+      speak(text);
+      requestWakeLock();
+    } else if (step.kind === 'complete') {
+      finishSession();
+    }
+  }
+  function pauseSubText() {
+    const step = state.player.step;
+    if (!step) return '';
+    if (step.kind === 'phase') return step.title;
+    return `${step.moduleLabel} · 第 ${step.round}/${step.roundTotal} 轮 · 动作 ${step.move}/${step.moveTotal}`;
+  }
+  function showPauseSheet(reason) {
+    $('#pause-backdrop').hidden = false;
+    $('#pause-sheet').hidden = false;
+    $('#pause-title').textContent = reason === 'visibility' ? '已自动暂停' : '已暂停';
+    $('#pause-sub').textContent = pauseSubText();
+    $('#resume-btn').focus({ preventScroll: true });
+  }
+  function hidePauseSheet() {
+    $('#pause-backdrop').hidden = true;
+    $('#pause-sheet').hidden = true;
+  }
+  function pausePlayer(reason = 'manual') {
+    const p = state.player;
+    if (p.status === 'paused') return;
+    if (!['work', 'rest', 'roundRest', 'phaseIntro'].includes(p.status)) return;
+    if (['work', 'rest', 'roundRest'].includes(p.status)) {
+      p.remainingMs = Math.max(0, p.stepEndsAt - performance.now());
+    }
+    p.pausedFrom = p.status;
+    p.status = 'paused';
+    clearTimer();
+    stopSpeech();
+    releaseWakeLock();
+    setPauseIcon(true);
+    showPauseSheet(reason);
+    announce('已暂停。');
+    speak('已暂停。');
+  }
+  function resumePlayer() {
+    const p = state.player;
+    if (p.status !== 'paused') return;
+    hidePauseSheet();
+    p.status = p.pausedFrom || 'work';
+    p.pausedFrom = null;
+    setPauseIcon(false);
+    if (['work', 'rest', 'roundRest'].includes(p.status)) {
+      p.stepDurationMs = (p.step.duration + (p.step.extraSeconds || 0)) * 1000;
+      p.stepEndsAt = performance.now() + p.remainingMs;
+      startTimer();
+      requestWakeLock();
+    }
+    announce('继续训练。');
+    speak('继续训练。');
+    const target = p.status === 'phaseIntro' ? $('#phase-cta') : $('#pause-btn');
+    target.focus({ preventScroll: true });
+  }
+  function skipStep() {
+    const p = state.player;
+    if (p.status === 'paused' || p.status === 'complete') return;
+    if (!['work', 'rest', 'roundRest', 'phaseIntro'].includes(p.status)) return;
+    beep(520, 0.06, 0.04);
+    advanceStep('skip');
+  }
+  function extendStep() {
+    const p = state.player;
+    if (!['work', 'rest', 'roundRest'].includes(p.status)) return;
+    p.step.extraSeconds = (p.step.extraSeconds || 0) + 15;
+    p.stepDurationMs += 15000;
+    p.stepEndsAt += 15000;
+    p.remainingMs += 15000;
+    updateProgress();
+    beep(700, 0.08, 0.05);
+    announce('已延长十五秒。');
+    speak('已延长十五秒。');
+  }
+  function finishSession() {
+    const p = state.player;
+    if (p.status === 'complete') return;
+    p.status = 'complete';
+    clearTimer();
+    stopSpeech();
+    releaseWakeLock();
+    hidePauseSheet();
+    renderComplete();
+    announce('训练完成，做得很好。');
+    speak('训练完成，做得很好。');
+    beep(523, 0.12, 0.06);
+    beep(659, 0.12, 0.06, 0.16);
+    beep(784, 0.18, 0.06, 0.32);
+  }
+  function openPlayer(session) {
+    state.session = session;
+    const p = state.player;
+    clearTimer();
+    stopSpeech();
+    hidePauseSheet();
+    p.open = true;
+    p.status = 'idle';
+    p.index = 0;
+    p.step = null;
+    p.movesCompleted = 0;
+    p.roundsCompleted = 0;
+    p.pausedFrom = null;
+    p.remainingMs = 0;
+    const dialog = $('#player-dialog');
+    if (!dialog.open) dialog.showModal();
+    syncScrollLock();
+    $('#player').dataset.state = 'work';
+    setRing(0);
+    updateProgress();
+    unlockAudio();
+    loadVoices();
+    enterStep(0);
+  }
+  function closePlayer() {
+    ['#tips-dialog', '#safety-dialog', '#sound-dialog', '#exit-dialog'].forEach((sel) => {
+      const d = $(sel);
+      if (d && d.open) d.close();
+    });
+    const dialog = $('#player-dialog');
+    if (dialog.open) dialog.close();
+  }
+  async function requestWakeLock() {
+    if (!('wakeLock' in navigator) || state.player.wakeLock) return;
+    try {
+      state.player.wakeLock = await navigator.wakeLock.request('screen');
+      state.player.wakeLock.addEventListener('release', () => { state.player.wakeLock = null; });
+    } catch {}
+  }
+  function releaseWakeLock() {
+    if (state.player.wakeLock) {
+      state.player.wakeLock.release().catch(() => {});
+      state.player.wakeLock = null;
+    }
+  }
+  function setPauseIcon(paused) {
+    const btn = $('#pause-btn');
+    btn.innerHTML = `<svg class="icon" aria-hidden="true"><use href="#i-${paused ? 'play' : 'pause'}"></use></svg>`;
+    btn.setAttribute('aria-label', paused ? '继续训练' : '暂停训练');
+  }
+  function openExitConfirm() {
+    if (state.player.open && !['paused', 'complete'].includes(state.player.status)) pausePlayer('exit');
+    const d = $('#exit-dialog');
+    if (!d.open) d.showModal();
+    syncScrollLock();
+    $('#exit-cancel').focus();
+  }
+  function openSoundDialog() {
+    syncSoundInputs();
+    const d = $('#sound-dialog');
+    if (!d.open) d.showModal();
+    syncScrollLock();
+    $('#sound-dialog [data-close]')?.focus();
+  }
+  function openSafetyDialog() {
+    const d = $('#safety-dialog');
+    if (!d.open) d.showModal();
+    syncScrollLock();
+    $('#safety-dialog [data-close]')?.focus();
+  }
+  function openLibraryDialog() {
+    renderLibrary();
+    const d = $('#library-dialog');
+    if (!d.open) d.showModal();
+    syncScrollLock();
+    $('#library-close').focus();
+  }
+  function syncScrollLock() {
+    document.body.classList.toggle('no-scroll', !!document.querySelector('dialog[open]'));
+  }
+
+  /* ---------- setup events ---------- */
+  function startWorkout() {
+    const settings = readSettings();
+    const key = settingsKey(settings);
+    if (!state.previewSession || state.previewKey !== key) refreshPreview();
+    openPlayer(state.previewSession);
+  }
+
+  $('.duration-grid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.duration');
+    if (!btn) return;
+    $$('.duration').forEach((b) => {
+      const active = b === btn;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-pressed', String(active));
+    });
+    refreshPreview();
   });
-  document.getElementById('reset-button').addEventListener('click', resetTimer);
+  $$('input[name="level"], input[name="goal"], input[name="equipment"], input[name="limitation"]').forEach((input) => {
+    input.addEventListener('change', refreshPreview);
+  });
+  $('#preview-start').addEventListener('click', startWorkout);
+  $('#bar-start').addEventListener('click', startWorkout);
+  $('#preview-reshuffle').addEventListener('click', refreshPreview);
+  $('#preview-library').addEventListener('click', openLibraryDialog);
+  $('#open-library').addEventListener('click', openLibraryDialog);
+  $('#open-safety').addEventListener('click', openSafetyDialog);
+  $('#open-sound').addEventListener('click', openSoundDialog);
+
+  /* ---------- player events ---------- */
+  $('#player-close').addEventListener('click', openExitConfirm);
+  $('#player-tips-btn').addEventListener('click', () => {
+    const step = state.player.step;
+    const id = step?.exerciseId || step?.nextExerciseId
+      || state.session?.timeline.find((s) => s.kind === 'work')?.exerciseId;
+    if (id) openTips(id, true);
+  });
+  $('#player-sound-btn').addEventListener('click', () => {
+    if (['work', 'rest', 'roundRest', 'phaseIntro'].includes(state.player.status)) pausePlayer('sound');
+    else openSoundDialog();
+  });
+  $('#pause-btn').addEventListener('click', () => {
+    if (state.player.status === 'paused') resumePlayer();
+    else pausePlayer('manual');
+  });
+  $('#skip-btn').addEventListener('click', skipStep);
+  $('#extend-btn').addEventListener('click', extendStep);
+  $('#pause-backdrop').addEventListener('click', resumePlayer);
+  $('#resume-btn').addEventListener('click', resumePlayer);
+  $('#pause-tips-btn').addEventListener('click', () => {
+    const step = state.player.step;
+    const id = step?.exerciseId || step?.nextExerciseId;
+    if (id) openTips(id, true);
+  });
+  $('#pause-safety-btn').addEventListener('click', openSafetyDialog);
+  $('#end-btn').addEventListener('click', openExitConfirm);
+  $('#phase-cta').addEventListener('click', () => advanceStep('cta'));
+  $('#complete-again').addEventListener('click', () => {
+    openPlayer(buildSession(readSettings()));
+  });
+  $('#complete-home').addEventListener('click', closePlayer);
+
+  /* ---------- dialogs ---------- */
+  $$('[data-close]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const d = btn.closest('dialog');
+      if (d) d.close();
+    });
+  });
+  $('#library-close').addEventListener('click', () => $('#library-dialog').close());
+  $('#tips-close').addEventListener('click', () => $('#tips-dialog').close());
+  $('#tips-close-top').addEventListener('click', () => $('#tips-dialog').close());
+  $('#exit-cancel').addEventListener('click', () => {
+    $('#exit-dialog').close();
+    if (state.player.status === 'paused') $('#resume-btn').focus({ preventScroll: true });
+  });
+  $('#exit-confirm').addEventListener('click', () => {
+    $('#exit-dialog').close();
+    closePlayer();
+  });
+  $$('dialog').forEach((d) => {
+    d.addEventListener('click', (e) => {
+      if (e.target === d && d.id !== 'player-dialog') d.close();
+    });
+    d.addEventListener('toggle', syncScrollLock);
+    d.addEventListener('close', syncScrollLock);
+  });
+  $('#tips-dialog').addEventListener('close', () => {
+    if (state.tipsFromPlayer && state.player.open && state.player.status === 'paused') {
+      $('#resume-btn').focus({ preventScroll: true });
+    }
+    state.tipsFromPlayer = false;
+  });
+
+  /* ---------- library ---------- */
+  $('#library-filters').addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    if (btn.dataset.filterCat) {
+      state.library.category = btn.dataset.filterCat;
+      $$('#library-filters [data-filter-cat]').forEach((b) => b.classList.toggle('active', b === btn));
+    } else if (btn.dataset.filterSuitable) {
+      state.library.suitable = !state.library.suitable;
+      btn.classList.toggle('active', state.library.suitable);
+    } else if (btn.dataset.filterLow) {
+      state.library.lowImpact = !state.library.lowImpact;
+      btn.classList.toggle('active', state.library.lowImpact);
+    }
+    renderLibrary();
+  });
+  $('#exercise-grid').addEventListener('click', (e) => {
+    const card = e.target.closest('[data-exercise]');
+    if (card) openTips(card.dataset.exercise, false);
+  });
+
+  /* ---------- sound ---------- */
+  document.addEventListener('change', (e) => {
+    const input = e.target.closest('[data-sound]');
+    if (!input) return;
+    setSound(input.dataset.sound, input.checked);
+  });
+
+  /* ---------- player lifecycle ---------- */
+  const playerDialog = $('#player-dialog');
+  playerDialog.addEventListener('cancel', (e) => {
+    e.preventDefault();
+    if (state.player.status === 'paused') resumePlayer();
+    else pausePlayer('key');
+  });
+  playerDialog.addEventListener('close', () => {
+    clearTimer();
+    stopSpeech();
+    releaseWakeLock();
+    hidePauseSheet();
+    syncScrollLock();
+    state.player.open = false;
+    state.player.status = 'idle';
+    state.player.step = null;
+    const previewStart = $('#preview-start');
+    const target = (previewStart && previewStart.offsetParent) ? previewStart : $('#bar-start');
+    target.focus({ preventScroll: true });
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    const p = state.player;
+    if (document.hidden) {
+      p.hiddenAt = Date.now();
+      releaseWakeLock();
+      return;
+    }
+    const hiddenFor = Date.now() - (p.hiddenAt || 0);
+    if (!p.open) return;
+    if (hiddenFor > 1500 && ['work', 'rest', 'roundRest'].includes(p.status)) {
+      p.remainingMs = Math.max(0, p.stepEndsAt - performance.now());
+      pausePlayer('visibility');
+    } else if (['work', 'rest', 'roundRest'].includes(p.status)) {
+      requestWakeLock();
+      if (state.audioCtx && state.audioCtx.state === 'suspended') state.audioCtx.resume();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!state.player.open) return;
+    const target = e.target;
+    if (target instanceof Element && target.closest('input, textarea, select, [contenteditable]')) return;
+    if (document.querySelector('dialog[open]:not(#player-dialog)')) return;
+    const key = e.key;
+    if ((key === ' ' || key === 'Spacebar') && target instanceof Element && target.closest('button')) return;
+    if (key === ' ' || key === 'Spacebar') {
+      e.preventDefault();
+      if (state.player.status === 'paused') resumePlayer();
+      else pausePlayer('key');
+    } else if (key === 'ArrowRight') {
+      e.preventDefault();
+      skipStep();
+    } else if (key === '+' || key === '=') {
+      e.preventDefault();
+      extendStep();
+    } else if (key.toLowerCase() === 'm') {
+      e.preventDefault();
+      setSound('master', !state.sound.master);
+    }
+  });
+
+  /* ---------- init ---------- */
+  function init() {
+    syncSoundInputs();
+    loadVoices();
+    if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = loadVoices;
+    refreshPreview();
+  }
+  init();
+
+  window.__HIIT = {
+    get state() { return state; },
+    buildSession,
+    readSettings,
+    refreshPreview,
+    openPlayer,
+    finishSession,
+    advanceStep,
+    EXERCISES,
+    EX_BY_ID,
+    getNextInfo,
+    get session() { return state.session; }
+  };
+
+})();
+
 </script>
+
+
+</body>
+</html>
